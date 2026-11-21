@@ -1,0 +1,55 @@
+[project]
+name = "transito-natal"
+version = "0.1.0"
+description = "Medicao propria de congestionamento viario em Natal e na conurbacao sul, com dados abertos e series temporais"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+license = { text = "MIT" }
+dependencies = [
+    "httpx>=0.28",
+    "pydantic>=2.11",
+    "pyyaml>=6.0",
+    "tenacity>=9.0",
+    "typer>=0.15",
+    "duckdb>=1.1",
+    "pyarrow>=18.0",
+    "tzdata>=2024.2; platform_system == 'Windows'",
+]
+
+[project.optional-dependencies]
+relatorio = [
+    "matplotlib>=3.9",
+    "folium>=0.19",
+    "pandas>=2.2",
+]
+
+[project.scripts]
+transito = "transito_natal.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "respx>=0.22",
+    "ruff>=0.9",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/transito_natal"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "SIM", "RUF", "ARG", "PTH", "C4", "TID"]
+ignore = ["RUF001", "RUF002", "RUF003", "N818"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["src"]
