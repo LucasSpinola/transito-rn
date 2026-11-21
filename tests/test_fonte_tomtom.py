@@ -63,7 +63,7 @@ def test_mapeamento_preserva_indice_de_tempo_de_viagem():
 def test_amostragem_consulta_um_endpoint_por_segmento():
     rota = respx.get(url__startswith=BASE_URL).mock(return_value=httpx.Response(200, json=RESPOSTA))
     with fonte() as origem:
-        amostras = list(origem.amostrar([segmento("a"), segmento("b")]))
+        amostras = [origem.amostrar(segmento("a")), origem.amostrar(segmento("b"))]
     assert [item.segmento for item in amostras] == ["a", "b"]
     assert rota.call_count == 2
     assert origem.requisicoes == 2
@@ -73,7 +73,7 @@ def test_amostragem_consulta_um_endpoint_por_segmento():
 def test_zoom_do_segmento_vai_na_url():
     rota = respx.get(url__startswith=BASE_URL).mock(return_value=httpx.Response(200, json=RESPOSTA))
     with fonte() as origem:
-        list(origem.amostrar([segmento("a", zoom=12)]))
+        origem.amostrar(segmento("a", zoom=12))
     assert "/absolute/12/json" in str(rota.calls[0].request.url)
 
 
@@ -81,7 +81,7 @@ def test_zoom_do_segmento_vai_na_url():
 def test_excesso_de_requisicoes_interrompe_sem_retentativa():
     rota = respx.get(url__startswith=BASE_URL).mock(return_value=httpx.Response(429))
     with pytest.raises(LimiteDeRequisicoesExcedido), fonte() as origem:
-        list(origem.amostrar([segmento()]))
+        origem.amostrar(segmento())
     assert rota.call_count == 1
 
 
@@ -89,7 +89,7 @@ def test_excesso_de_requisicoes_interrompe_sem_retentativa():
 def test_erro_de_servidor_dispara_retentativa_limitada():
     rota = respx.get(url__startswith=BASE_URL).mock(return_value=httpx.Response(503))
     with pytest.raises(FonteIndisponivel), fonte() as origem:
-        list(origem.amostrar([segmento()]))
+        origem.amostrar(segmento())
     assert rota.call_count == 3
 
 
@@ -99,5 +99,4 @@ def test_retentativa_recupera_apos_falha_transitoria():
         side_effect=[httpx.Response(503), httpx.Response(200, json=RESPOSTA)]
     )
     with fonte() as origem:
-        amostras = list(origem.amostrar([segmento()]))
-    assert len(amostras) == 1
+        assert origem.amostrar(segmento()).segmento == "mlm-cei"

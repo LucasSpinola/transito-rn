@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import time
-from collections.abc import Iterator, Sequence
 from datetime import UTC, datetime
 
 import httpx
@@ -49,10 +48,6 @@ class FonteTomTom:
         self._limitador = LimitadorDeTaxa(qps)
         self.requisicoes = 0
 
-    def amostrar(self, segmentos: Sequence[Segmento]) -> Iterator[AmostraTrafego]:
-        for segmento in segmentos:
-            yield self._amostrar_um(segmento)
-
     def fechar(self) -> None:
         self._cliente.close()
 
@@ -68,7 +63,7 @@ class FonteTomTom:
         wait=wait_exponential(multiplier=1, min=1, max=8),
         reraise=True,
     )
-    def _amostrar_um(self, segmento: Segmento) -> AmostraTrafego:
+    def amostrar(self, segmento: Segmento) -> AmostraTrafego:
         self._limitador.aguardar()
         url = f"{self._base_url}/{segmento.zoom}/json"
         parametros = {

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Iterable, Sequence
+from collections.abc import Sequence
 from datetime import date, datetime
 from typing import Protocol, runtime_checkable
 
@@ -9,7 +9,7 @@ from transito_natal.domain.modelos import AmostraClima, AmostraTrafego, Coordena
 
 @runtime_checkable
 class FonteDeTrafego(Protocol):
-    def amostrar(self, segmentos: Sequence[Segmento]) -> Iterable[AmostraTrafego]: ...
+    def amostrar(self, segmento: Segmento) -> AmostraTrafego: ...
 
 
 @runtime_checkable

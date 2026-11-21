@@ -16,24 +16,25 @@ lotes:
     segmentos:
       - identificador: mlm-cei
         via: Avenida Maria Lacerda Montenegro
-        referencia: Em frente ao CEI Zona Sul, numero 260
+        referencia: Trecho de 444 metros em frente ao CEI Zona Sul, numero 260
+        bairro: Nova Parnamirim
+        municipio: Parnamirim
+        classe: local
+        zoom: 12
+        frc_esperado: FRC5
+        motivo: Portao da escola, concentra embarque e desembarque nos tres picos
+        ponto:
+          latitude: -5.8786711
+          longitude: -35.2165393
+      - identificador: mlm-corredor
+        via: Avenida Maria Lacerda Montenegro
+        referencia: Eixo completo da avenida, 3,4 quilometros ate a Ayrton Senna
         bairro: Nova Parnamirim
         municipio: Parnamirim
         classe: arterial
         zoom: 15
         frc_esperado: FRC6
-        motivo: Portao da escola, concentra embarque e desembarque nos tres picos
-        ponto:
-          latitude: -5.8786711
-          longitude: -35.2165393
-      - identificador: mlm-assai
-        via: Avenida Maria Lacerda Montenegro
-        referencia: Altura do numero 900, polo comercial
-        bairro: Nova Parnamirim
-        municipio: Parnamirim
-        classe: arterial
-        zoom: 15
-        motivo: Mede se a fila do portao da escola transborda para o trecho comercial
+        motivo: Mede se a fila do portao da escola transborda para o corredor inteiro
         ponto:
           latitude: -5.8841519
           longitude: -35.2130595
