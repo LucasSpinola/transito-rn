@@ -12,7 +12,7 @@ def _celula(valor: Any) -> str:
     if isinstance(valor, bool):
         return "sim" if valor else "nao"
     if isinstance(valor, float):
-        return f"{valor:.2f}".replace(".", ",")
+        return f"{valor:.2f}".rstrip("0").rstrip(".").replace(".", ",") or "0"
     return str(valor)
 
 
