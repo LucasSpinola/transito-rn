@@ -62,17 +62,13 @@ class Relatorio(NamedTuple):
     mapa: Path | None
 
 
-def _plural(quantidade: int, singular: str, plural: str) -> str:
-    return f"{quantidade} {singular if quantidade == 1 else plural}"
-
-
 def _cabecalho(cobertura: dict[str, object]) -> str:
     if not cobertura.get("amostras"):
         return "Nenhuma amostra coletada ate agora."
     return (
-        f"Serie de {_plural(cobertura['amostras'], 'amostra', 'amostras')} em "
-        f"{_plural(cobertura['segmentos'], 'segmento', 'segmentos')}, cobrindo "
-        f"{_plural(cobertura['dias'], 'dia', 'dias')}, de {cobertura['primeiro_dia']} "
+        f"Serie de {tabelas.plural(cobertura['amostras'], 'amostra', 'amostras')} em "
+        f"{tabelas.plural(cobertura['segmentos'], 'segmento', 'segmentos')}, cobrindo "
+        f"{tabelas.plural(cobertura['dias'], 'dia', 'dias')}, de {cobertura['primeiro_dia']} "
         f"a {cobertura['ultimo_dia']}."
     )
 

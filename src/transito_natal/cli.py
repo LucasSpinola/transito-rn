@@ -17,6 +17,7 @@ from transito_natal.domain.janelas import classificar, momento_local
 from transito_natal.domain.metricas import indice_tempo_viagem, nivel_servico
 from transito_natal.ports.erros import ErroDeColeta
 from transito_natal.reporting.relatorio import gerar, injetar
+from transito_natal.reporting.tabelas import plural
 
 app = typer.Typer(
     help="Coleta e analise de congestionamento em Natal e na conurbacao sul",
@@ -166,8 +167,10 @@ def analisar(
 
         cobertura = analise.cobertura()
         typer.secho(
-            f"{cobertura['amostras']} amostras em {cobertura['segmentos']} segmentos, "
-            f"{cobertura['dias']} dias, de {cobertura['primeiro_dia']} a {cobertura['ultimo_dia']}",
+            f"{plural(cobertura['amostras'], 'amostra', 'amostras')} em "
+            f"{plural(cobertura['segmentos'], 'segmento', 'segmentos')}, "
+            f"{plural(cobertura['dias'], 'dia', 'dias')}, "
+            f"de {cobertura['primeiro_dia']} a {cobertura['ultimo_dia']}",
             bold=True,
         )
         typer.secho("\ngargalos por indice de tempo de viagem", bold=True)
@@ -216,11 +219,17 @@ def status(catalogo: OpcaoCatalogo = None) -> None:
     total = repositorio.total_de_amostras()
     ativos = catalogo_carregado.listar()
 
-    typer.secho(f"{len(ativos)} segmentos ativos em {configuracao.dados}", bold=True)
+    typer.secho(
+        f"{plural(len(ativos), 'segmento ativo', 'segmentos ativos')} em {configuracao.dados}",
+        bold=True,
+    )
     if not dias:
         typer.echo("nenhuma amostra coletada ainda")
         raise typer.Exit(code=0)
-    typer.echo(f"{total} amostras em {len(dias)} dias, de {dias[0]} a {dias[-1]}")
+    typer.echo(
+        f"{plural(total, 'amostra', 'amostras')} em "
+        f"{plural(len(dias), 'dia', 'dias')}, de {dias[0]} a {dias[-1]}"
+    )
     projecao = catalogo_carregado.orcamento()
     typer.echo(f"vida restante da cota no mes: {projecao.vida_restante(total).days} dias")
 

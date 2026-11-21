@@ -6,6 +6,10 @@ from typing import Any
 Registro = dict[str, Any]
 
 
+def plural(quantidade: int, singular: str, plural_: str) -> str:
+    return f"{quantidade} {singular if quantidade == 1 else plural_}"
+
+
 def _celula(valor: Any) -> str:
     if valor is None:
         return "sem dado"
