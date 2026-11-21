@@ -253,6 +253,7 @@ class Analise:
             )
             SELECT
                 segmento,
+                lote,
                 coletado_em,
                 local,
                 local::DATE AS dia,

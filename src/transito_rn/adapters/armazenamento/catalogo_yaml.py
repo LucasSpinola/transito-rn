@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from datetime import datetime
 from pathlib import Path
 
@@ -54,11 +54,16 @@ class Catalogo(BaseModel):
                 return lote
         raise KeyError(f"lote inexistente: {identificador}")
 
-    def a_coletar(self, momento: datetime) -> Sequence[Segmento]:
+    def a_coletar(
+        self,
+        momento: datetime,
+        ultimas: Mapping[str, datetime] | None = None,
+    ) -> Sequence[Segmento]:
+        registro = ultimas or {}
         return tuple(
             segmento
             for lote in self.lotes
-            if lote.ativo and lote.cadencia.deve_coletar(momento)
+            if lote.ativo and lote.cadencia.deve_coletar(momento, registro.get(lote.identificador))
             for segmento in lote.segmentos
         )
 

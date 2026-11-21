@@ -44,3 +44,43 @@ def test_clima_vai_para_conjunto_separado(tmp_path):
     assert gravadas == 1
     assert (tmp_path / "clima" / "dt=2026-11-20").exists()
     assert repositorio.total_de_amostras() == 0
+
+
+def test_sem_dados_nao_ha_ultima_coleta(tmp_path):
+    assert RepositorioParquet(tmp_path).ultima_coleta_por_lote() == {}
+
+
+def test_ultima_coleta_separa_por_lote(tmp_path):
+    repositorio = RepositorioParquet(tmp_path)
+    repositorio.gravar(
+        [
+            amostra(
+                segmento="mlm-cei",
+                lote="parnamirim-cei",
+                coletado_em=datetime(2026, 11, 21, 10, 0, tzinfo=UTC),
+            ),
+            amostra(
+                segmento="roberto-freire",
+                lote="natal-zona-sul",
+                coletado_em=datetime(2026, 11, 21, 10, 0, tzinfo=UTC),
+            ),
+        ]
+    )
+    repositorio.gravar(
+        [
+            amostra(
+                segmento="mlm-cei",
+                lote="parnamirim-cei",
+                coletado_em=datetime(2026, 11, 21, 10, 15, tzinfo=UTC),
+            )
+        ]
+    )
+    ultimas = repositorio.ultima_coleta_por_lote()
+    assert ultimas["parnamirim-cei"] == datetime(2026, 11, 21, 10, 15, tzinfo=UTC)
+    assert ultimas["natal-zona-sul"] == datetime(2026, 11, 21, 10, 0, tzinfo=UTC)
+
+
+def test_amostra_sem_lote_nao_entra_no_registro(tmp_path):
+    repositorio = RepositorioParquet(tmp_path)
+    repositorio.gravar([amostra(coletado_em=datetime(2026, 11, 21, 10, 0, tzinfo=UTC))])
+    assert repositorio.ultima_coleta_por_lote() == {}

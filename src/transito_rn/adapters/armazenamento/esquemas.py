@@ -5,6 +5,7 @@ import pyarrow as pa
 TRAFEGO = pa.schema(
     [
         pa.field("segmento", pa.string(), nullable=False),
+        pa.field("lote", pa.string(), nullable=True),
         pa.field("coletado_em", pa.timestamp("us", tz="UTC"), nullable=False),
         pa.field("velocidade_atual_kmh", pa.float64(), nullable=False),
         pa.field("velocidade_livre_kmh", pa.float64(), nullable=False),

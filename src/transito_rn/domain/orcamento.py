@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from transito_rn.domain.janelas import FAIXAS, Janela, classificar, dia_util, momento_local
+from transito_rn.domain.janelas import FAIXAS, Janela, classificar, dia_util
 
 LIMITE_MENSAL_PADRAO = 20_000
 MARGEM_DE_SEGURANCA = 0.15
@@ -44,18 +44,22 @@ class Cadencia(BaseModel):
     def coletas_por_mes(self) -> int:
         return self.coletas_por_dia() * self.dias_por_mes()
 
-    def deve_coletar(self, momento: datetime) -> bool:
+    def deve_coletar(self, momento: datetime, ultima: datetime | None = None) -> bool:
         if self.apenas_dias_uteis and not dia_util(momento):
             return False
         intervalo = self.intervalo(classificar(momento))
         if intervalo is None or intervalo <= 0:
             return False
-        local = momento_local(momento)
-        return local.minute % intervalo < self.tolerancia_min
+        if ultima is None:
+            return True
+        if ultima > momento:
+            return False
+        decorrido = (momento - ultima).total_seconds() / 60
+        return decorrido >= intervalo - self.tolerancia_min
 
     @property
-    def tolerancia_min(self) -> int:
-        return 5
+    def tolerancia_min(self) -> float:
+        return 1.5
 
 
 class ConsumoDoLote(BaseModel):

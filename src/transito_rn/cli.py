@@ -96,13 +96,18 @@ def coletar(
     configuracao, catalogo_carregado = _carregar(catalogo)
     chave = _exigir_chave(configuracao)
     momento = datetime.now(UTC)
+    repositorio = RepositorioParquet(configuracao.dados)
+    ultimas = repositorio.ultima_coleta_por_lote()
 
     if lote:
         alvo = catalogo_carregado.lote(lote)
-        selecionados = alvo.segmentos if forcar or alvo.cadencia.deve_coletar(momento) else ()
+        devida = alvo.cadencia.deve_coletar(momento, ultimas.get(alvo.identificador))
+        selecionados = alvo.segmentos if forcar or devida else ()
     else:
         selecionados = (
-            catalogo_carregado.listar() if forcar else catalogo_carregado.a_coletar(momento)
+            catalogo_carregado.listar()
+            if forcar
+            else catalogo_carregado.a_coletar(momento, ultimas)
         )
 
     if not selecionados:
@@ -112,7 +117,6 @@ def coletar(
         )
         raise typer.Exit(code=0)
 
-    repositorio = RepositorioParquet(configuracao.dados)
     with FonteTomTom(chave=chave) as trafego, FonteOpenMeteo() as clima:
         resultado = ExecutarColeta(trafego, repositorio, clima).executar(selecionados, momento)
 

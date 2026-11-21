@@ -4,6 +4,7 @@ from collections.abc import Sequence
 from datetime import date, datetime
 from pathlib import Path
 
+import duckdb
 import pyarrow as pa
 import pyarrow.parquet as pq
 
@@ -48,6 +49,31 @@ class RepositorioParquet:
             if filho.is_dir() and filho.name.startswith("dt=")
         ]
         return tuple(dias)
+
+    def ultima_coleta_por_lote(self, dias_recentes: int = 3) -> dict[str, datetime]:
+        pasta = self.raiz / PASTA_TRAFEGO
+        if not pasta.exists():
+            return {}
+        particoes = sorted(
+            (filho for filho in pasta.iterdir() if filho.is_dir()),
+            reverse=True,
+        )[:dias_recentes]
+        arquivos = [
+            str(arquivo) for particao in particoes for arquivo in particao.glob("*.parquet")
+        ]
+        if not arquivos:
+            return {}
+        conexao = duckdb.connect(":memory:")
+        try:
+            conexao.execute("SET TimeZone = 'UTC'")
+            linhas = conexao.execute(
+                "SELECT coalesce(lote, '') AS lote, max(coletado_em) "
+                "FROM read_parquet(?, union_by_name = true) GROUP BY ALL",
+                [arquivos],
+            ).fetchall()
+        finally:
+            conexao.close()
+        return {lote: momento for lote, momento in linhas if lote}
 
     def total_de_amostras(self) -> int:
         pasta = self.raiz / PASTA_TRAFEGO

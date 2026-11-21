@@ -36,6 +36,7 @@ def para_amostra(
     bloco = extrair_bloco(payload)
     return AmostraTrafego(
         segmento=segmento.identificador,
+        lote=segmento.lote,
         coletado_em=coletado_em,
         velocidade_atual_kmh=float(bloco["currentSpeed"]),
         velocidade_livre_kmh=float(bloco["freeFlowSpeed"]),

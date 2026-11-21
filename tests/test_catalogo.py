@@ -74,3 +74,15 @@ def test_coleta_em_pico_seleciona_o_lote_ativo(catalogo):
 def test_lote_inexistente_levanta_erro(catalogo):
     with pytest.raises(KeyError, match="lote inexistente"):
         catalogo.lote("zona-leste")
+
+
+def test_lote_recem_coletado_fica_de_fora(catalogo):
+    agora = datetime(2026, 11, 20, 10, 0, tzinfo=UTC)
+    recente = {"parnamirim-cei": datetime(2026, 11, 20, 9, 55, tzinfo=UTC)}
+    assert catalogo.a_coletar(agora, recente) == ()
+
+
+def test_lote_vencido_volta_a_ser_coletado(catalogo):
+    agora = datetime(2026, 11, 20, 10, 0, tzinfo=UTC)
+    antigo = {"parnamirim-cei": datetime(2026, 11, 20, 9, 30, tzinfo=UTC)}
+    assert len(catalogo.a_coletar(agora, antigo)) == 3

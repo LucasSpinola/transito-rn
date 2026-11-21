@@ -195,8 +195,10 @@ portão da escola, isso já indica uma via que nunca foi rápida, e o índice me
 patamar baixo.
 
 A coleta só acontece nas janelas configuradas, então a série não cobre o dia inteiro com a mesma
-densidade. Rodadas agendadas pelo GitHub Actions podem atrasar alguns minutos em horário de pico
-da plataforma, o que o campo de horário de coleta registra fielmente.
+densidade. Rodadas agendadas pelo GitHub Actions atrasam com frequência, às vezes dezenas de
+minutos, porque o agendador da plataforma é melhor esforço. Por isso a cadência não olha o relógio
+e sim o tempo decorrido desde a última amostra de cada lote: uma execução atrasada ainda coleta, e
+uma execução adiantada não duplica. O horário real de cada medição fica gravado na amostra.
 
 Por fim, correlação não é causa. Se o índice cai depois de uma intervenção, o repositório mostra
 que caiu, não que a intervenção foi a razão.

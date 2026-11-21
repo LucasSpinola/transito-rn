@@ -41,6 +41,7 @@ class AmostraTrafego(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     segmento: str
+    lote: str = ""
     coletado_em: datetime
     velocidade_atual_kmh: float = Field(ge=0)
     velocidade_livre_kmh: float = Field(gt=0)

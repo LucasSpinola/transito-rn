@@ -83,3 +83,36 @@ def test_vida_restante_cai_conforme_consumo():
     )
     assert orcamento.vida_restante(0) > orcamento.vida_restante(10_000)
     assert orcamento.vida_restante(20_000).days == 0
+
+
+def momento(hora: int, minuto: int = 0, dia: int = 20) -> datetime:
+    return datetime(2026, 11, dia, hora, minuto, tzinfo=UTC)
+
+
+def test_sem_coleta_anterior_coleta_na_primeira_chance():
+    assert cadencia_de_pico(15).deve_coletar(momento(10))
+
+
+def test_execucao_atrasada_pelo_agendador_ainda_coleta():
+    cadencia = cadencia_de_pico(15)
+    assert cadencia.deve_coletar(momento(10, 23), ultima=momento(9, 45))
+
+
+def test_execucao_cedo_demais_nao_duplica_amostra():
+    cadencia = cadencia_de_pico(15)
+    assert not cadencia.deve_coletar(momento(10, 5), ultima=momento(10, 0))
+
+
+def test_tolerancia_aceita_pequeno_adiantamento():
+    cadencia = cadencia_de_pico(15)
+    assert cadencia.deve_coletar(momento(10, 14), ultima=momento(9, 59))
+
+
+def test_relogio_adiantado_na_ultima_coleta_nao_coleta():
+    cadencia = cadencia_de_pico(15)
+    assert not cadencia.deve_coletar(momento(10), ultima=momento(11))
+
+
+def test_fora_da_janela_nao_coleta_mesmo_muito_atrasado():
+    cadencia = cadencia_de_pico(15)
+    assert not cadencia.deve_coletar(momento(6), ultima=momento(1))

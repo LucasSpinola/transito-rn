@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from datetime import date, datetime
 from typing import Protocol, runtime_checkable
 
@@ -29,3 +29,5 @@ class RepositorioDeAmostras(Protocol):
     def gravar_clima(self, amostras: Sequence[AmostraClima]) -> int: ...
 
     def dias_disponiveis(self) -> Sequence[date]: ...
+
+    def ultima_coleta_por_lote(self) -> Mapping[str, datetime]: ...

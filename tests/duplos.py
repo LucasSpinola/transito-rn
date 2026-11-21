@@ -54,6 +54,17 @@ class RepositorioFalso:
     def dias_disponiveis(self) -> Sequence[object]:
         return ()
 
+    def ultima_coleta_por_lote(self) -> dict[str, datetime]:
+        if not self.trafego:
+            return {}
+        return {
+            amostra.lote: max(
+                item.coletado_em for item in self.trafego if item.lote == amostra.lote
+            )
+            for amostra in self.trafego
+            if amostra.lote
+        }
+
 
 class ErroQualquer(ErroDeColeta):
     pass
