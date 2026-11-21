@@ -84,3 +84,21 @@ def test_amostra_sem_lote_nao_entra_no_registro(tmp_path):
     repositorio = RepositorioParquet(tmp_path)
     repositorio.gravar([amostra(coletado_em=datetime(2026, 11, 21, 10, 0, tzinfo=UTC))])
     assert repositorio.ultima_coleta_por_lote() == {}
+
+
+def test_parquet_antigo_sem_coluna_de_lote_nao_quebra(tmp_path):
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+
+    destino = tmp_path / "trafego" / "dt=2026-11-21"
+    destino.mkdir(parents=True)
+    antigo = pa.table(
+        {
+            "segmento": ["mlm-cei"],
+            "coletado_em": pa.array(
+                [datetime(2026, 11, 21, 10, 0, tzinfo=UTC)], pa.timestamp("us", tz="UTC")
+            ),
+        }
+    )
+    pq.write_table(antigo, destino / "100000.parquet")
+    assert RepositorioParquet(tmp_path).ultima_coleta_por_lote() == {}

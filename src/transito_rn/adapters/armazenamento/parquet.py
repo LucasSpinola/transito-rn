@@ -66,14 +66,18 @@ class RepositorioParquet:
         conexao = duckdb.connect(":memory:")
         try:
             conexao.execute("SET TimeZone = 'UTC'")
+            leitura = "read_parquet(?, union_by_name = true)"
+            colunas = conexao.execute(f"SELECT * FROM {leitura} LIMIT 0", [arquivos]).description
+            if "lote" not in {nome for nome, *_ in colunas}:
+                return {}
             linhas = conexao.execute(
-                "SELECT coalesce(lote, '') AS lote, max(coletado_em) "
-                "FROM read_parquet(?, union_by_name = true) GROUP BY ALL",
+                f"SELECT lote AS identificador, max(coletado_em) AS ultima FROM {leitura} "
+                "WHERE lote IS NOT NULL AND lote <> '' GROUP BY identificador",
                 [arquivos],
             ).fetchall()
         finally:
             conexao.close()
-        return {lote: momento for lote, momento in linhas if lote}
+        return dict(linhas)
 
     def total_de_amostras(self) -> int:
         pasta = self.raiz / PASTA_TRAFEGO
