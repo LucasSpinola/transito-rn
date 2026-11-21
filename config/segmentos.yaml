@@ -16,25 +16,25 @@ lotes:
     segmentos:
       - identificador: mlm-cei
         via: Avenida Maria Lacerda Montenegro
-        referencia: Trecho de 444 metros em frente ao CEI Zona Sul, numero 260
+        referencia: Trecho de 444 metros em frente ao CEI Zona Sul, número 260
         bairro: Nova Parnamirim
         municipio: Parnamirim
         classe: local
         zoom: 12
         frc_esperado: FRC5
-        motivo: Portao da escola, concentra embarque e desembarque nos tres picos
+        motivo: Portão da escola, concentra embarque e desembarque nos três picos
         ponto:
           latitude: -5.8786711
           longitude: -35.2165393
       - identificador: mlm-corredor
         via: Avenida Maria Lacerda Montenegro
-        referencia: Eixo completo da avenida, 3,4 quilometros ate a Ayrton Senna
+        referencia: Eixo completo da avenida, 3,4 quilômetros até a Ayrton Senna
         bairro: Nova Parnamirim
         municipio: Parnamirim
         classe: arterial
         zoom: 15
         frc_esperado: FRC6
-        motivo: Mede se a fila do portao da escola transborda para o corredor inteiro
+        motivo: Mede se a fila do portão da escola transborda para o corredor inteiro
         ponto:
           latitude: -5.8841519
           longitude: -35.2130595
@@ -56,7 +56,7 @@ lotes:
         municipio: Parnamirim
         classe: troncal
         zoom: 12
-        motivo: Principal ligacao da conurbacao sul com a Zona Sul de Natal
+        motivo: Principal ligação da conurbação sul com a Zona Sul de Natal
         ponto:
           latitude: -5.8886641
           longitude: -35.1993949
@@ -67,13 +67,13 @@ lotes:
         municipio: Parnamirim
         classe: troncal
         zoom: 10
-        motivo: Rodovia federal que absorve o trafego de passagem da regiao
+        motivo: Rodovia federal que absorve o tráfego de passagem da região
         ponto:
           latitude: -5.8738897
           longitude: -35.2209179
 
   - identificador: natal-zona-sul
-    descricao: Corredores estruturantes da Zona Sul de Natal, incluindo Lagoa Nova, que lidera as estatisticas de sinistros da STTU
+    descricao: Corredores estruturantes da Zona Sul de Natal, incluindo Lagoa Nova, que lidera as estatísticas de sinistros da STTU
     ativo: false
     cadencia:
       apenas_dias_uteis: true
@@ -90,7 +90,7 @@ lotes:
         municipio: Natal
         classe: troncal
         zoom: 12
-        motivo: Eixo turistico e de acesso ao sul da cidade
+        motivo: Eixo turístico e de acesso ao sul da cidade
         ponto:
           latitude: -5.8670220
           longitude: -35.1832481
@@ -117,13 +117,13 @@ lotes:
           latitude: -5.8140748
           longitude: -35.2055300
       - identificador: romualdo-galvao
-        via: Avenida Romualdo Galvao
+        via: Avenida Romualdo Galvão
         referencia: Lagoa Nova
         bairro: Lagoa Nova
         municipio: Natal
         classe: arterial
         zoom: 15
-        motivo: Bairro com maior numero de sinistros registrados pela STTU
+        motivo: Bairro com maior número de sinistros registrados pela STTU
         ponto:
           latitude: -5.8157150
           longitude: -35.2094358
@@ -134,7 +134,7 @@ lotes:
         municipio: Natal
         classe: troncal
         zoom: 12
-        motivo: Corredor de ligacao entre Zona Sul e centro
+        motivo: Corredor de ligação entre Zona Sul e centro
         ponto:
           latitude: -5.7923759
           longitude: -35.2029222
@@ -145,7 +145,7 @@ lotes:
         municipio: Natal
         classe: arterial
         zoom: 15
-        motivo: Eixo historico de servicos com estacionamento em via
+        motivo: Eixo histórico de serviços com estacionamento em via
         ponto:
           latitude: -5.7901614
           longitude: -35.1967099
@@ -156,7 +156,7 @@ lotes:
         municipio: Natal
         classe: troncal
         zoom: 12
-        motivo: Anel interno que distribui o trafego leste oeste
+        motivo: Anel interno que distribui o tráfego leste oeste
         ponto:
           latitude: -5.8141881
           longitude: -35.2014478
@@ -173,7 +173,7 @@ lotes:
           longitude: -35.2221997
 
   - identificador: natal-zona-norte
-    descricao: Travessias do rio Potengi e corredores da Zona Norte, onde a ligacao com o resto da cidade e o gargalo estrutural
+    descricao: Travessias do rio Potengi e corredores da Zona Norte, onde a ligação com o resto da cidade é o gargalo estrutural
     ativo: false
     cadencia:
       apenas_dias_uteis: true
@@ -190,34 +190,34 @@ lotes:
         municipio: Natal
         classe: troncal
         zoom: 10
-        motivo: Uma das duas travessias do Potengi, gargalo critico da cidade
+        motivo: Uma das duas travessias do Potengi, gargalo crítico da cidade
         ponto:
           latitude: -5.7559300
           longitude: -35.2026795
       - identificador: felizardo-moura
         via: Avenida Felizardo Firmino Moura
-        referencia: Acesso a ponte de Igapo
+        referencia: Acesso à ponte de Igapó
         bairro: Nordeste
         municipio: Natal
         classe: troncal
         zoom: 12
-        motivo: Aproximacao da segunda travessia do Potengi
+        motivo: Aproximação da segunda travessia do Potengi
         ponto:
           latitude: -5.7940902
           longitude: -35.2419390
       - identificador: tomaz-landim
         via: Avenida Bacharel Tomaz Landim
-        referencia: Igapo
-        bairro: Igapo
+        referencia: Igapó
+        bairro: Igapó
         municipio: Natal
         classe: troncal
         zoom: 12
-        motivo: Continuacao da BR-406 dentro da Zona Norte
+        motivo: Continuação da BR-406 dentro da Zona Norte
         ponto:
           latitude: -5.7733227
           longitude: -35.2601026
       - identificador: joao-medeiros-filho
-        via: Avenida Doutor Joao Medeiros Filho
+        via: Avenida Doutor João Medeiros Filho
         referencia: Potengi
         bairro: Potengi
         municipio: Natal
@@ -234,18 +234,18 @@ lotes:
         municipio: Natal
         classe: arterial
         zoom: 15
-        motivo: Borda norte em expansao urbana acelerada
+        motivo: Borda norte em expansão urbana acelerada
         ponto:
           latitude: -5.7209819
           longitude: -35.2450279
       - identificador: capitao-mor-gouveia
-        via: Avenida Capitao Mor-Gouveia
+        via: Avenida Capitão Mor-Gouveia
         referencia: Bom Pastor
         bairro: Bom Pastor
         municipio: Natal
         classe: troncal
         zoom: 12
-        motivo: Ligacao oeste que alimenta as travessias do Potengi
+        motivo: Ligação oeste que alimenta as travessias do Potengi
         ponto:
           latitude: -5.8169189
           longitude: -35.2445853

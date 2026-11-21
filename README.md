@@ -1,86 +1,82 @@
 # transito-natal
 
-Medicao propria de congestionamento viario em Natal e na conurbacao sul, porque nenhuma base
-publica mede isso na cidade. O repositorio coleta a sua propria serie temporal, calcula metricas
-de engenharia de trafego sobre ela e usa o resultado para discutir intervencoes concretas,
-comecando pelo entorno do CEI Zona Sul, na Avenida Maria Lacerda Montenegro, em Nova Parnamirim.
+Mede congestionamento em Natal e na conurbação sul coletando a própria série de dados, porque
+nenhuma base pública mede isso na cidade.
 
-## O ponto de partida
+## Por que existe
 
-A pergunta era simples: onde Natal trava e o que da para fazer a respeito. A resposta demorou
-porque o dado nao existe. O portal de mobilidade da STTU publica o catalogo estatico de linhas e
-itinerarios, o anuario de sinistros mais recente e de 2018, e os numeros de 2024 e 2025 so
-aparecem na imprensa citando a secretaria. Alem disso sinistro nao e congestionamento: um bairro
-pode liderar o ranking de acidentes e ter fluxo livre.
+Natal não tem dado aberto de congestionamento. O portal da STTU publica só o catálogo estático de
+linhas e itinerários, e o anuário de sinistros mais recente é de 2018.
 
-Entao o projeto inverteu a ordem. Em vez de procurar um dado pronto, ele define 19 segmentos
-viarios, consulta a velocidade real deles de 15 em 15 minutos nos picos e acumula a serie em
-parquet. O que antes era impressao de morador vira medida com data, hora e metodo.
+Sinistro também não é congestionamento: um bairro pode liderar o ranking de acidentes e ter fluxo
+livre.
+
+Então o projeto define 19 segmentos viários, mede a velocidade real deles de 15 em 15 minutos nos
+picos e guarda tudo em parquet. Impressão vira medida, com data, hora e método.
 
 ## O caso que originou tudo
 
-Moro na Maria Lacerda Montenegro e o transito ali trava nos horarios do CEI Zona Sul. A avenida
-tem duas funcoes que brigam entre si, corredor de ligacao com a Ayrton Senna e a BR-101, e porta
-de escola, e o embarque acontece na propria pista.
+A Avenida Maria Lacerda Montenegro, em Nova Parnamirim, é corredor de ligação com a Ayrton Senna
+e a BR-101, e ao mesmo tempo porta do CEI Zona Sul. O embarque de alunos acontece na pista, no
+mesmo horário em que o fluxo de passagem está no pico.
 
-A primeira medicao, as 10h34 de uma sexta-feira, fora de qualquer pico, ja mostrou o contorno do
-problema:
+Primeira medição, 10h34 de uma sexta, fora de pico:
 
-| Trecho | Velocidade | Fluxo livre | Indice | Nivel |
+| Trecho | Velocidade | Fluxo livre | Índice | Nível |
 | --- | --- | --- | --- | --- |
-| 444 metros em frente ao portao da escola | 13 km/h | 20 km/h | 1,54 | C |
-| Eixo completo da avenida, 3,4 km | 30 km/h | 36 km/h | 1,20 | B |
-| Avenida Abel Cabral, rota paralela | 30 km/h | 30 km/h | 1,00 | A |
+| 444 m em frente ao portão | 13 km/h | 20 km/h | 1,54 | C |
+| Eixo completo, 3,4 km | 30 km/h | 36 km/h | 1,20 | B |
+| Abel Cabral, rota paralela | 30 km/h | 30 km/h | 1,00 | A |
 
-O gargalo e local, nao sistemico, e isso muda a conversa inteira: problema local aceita solucao
-local e barata. A analise completa e as medidas pesquisadas estao em
+O gargalo é local, não sistêmico. Isso muda tudo, porque problema local aceita solução barata.
+As medidas pesquisadas estão em
 [docs/propostas/entorno-cei-zona-sul.md](docs/propostas/entorno-cei-zona-sul.md).
 
-## Achados da serie
+## Achados da série
 
 <!-- inicio dos achados -->
 
-Atualizado em 21/11/2026 13:57 utc pelo comando `transito relatorio`.
+Atualizado em 21/11/2026 14:03 utc pelo comando `transito relatorio`.
 
-Serie de 10 amostras em 5 segmentos, cobrindo 1 dia, de 2026-11-21 a 2026-11-21.
+Série de 10 amostras em 5 segmentos, cobrindo 1 dia, de 2026-11-21 a 2026-11-21.
 
 ![Ranking de gargalos](docs/figuras/ranking.png)
 
 ### Gargalos medidos
 
-| Via | Trecho | Municipio | Indice medio | Indice p95 | Atraso s/km | % critico | Velocidade media | Amostras |
+| Via | Trecho | Município | Índice médio | Índice p95 | Atraso s/km | % crítico | Velocidade média | Amostras |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Avenida Maria Lacerda Montenegro | Trecho de 444 metros em frente ao CEI Zona Sul, numero 260 | Parnamirim | 1,13 | 1,25 | 24,8 | 0 | 17,5 | 2 |
+| Avenida Maria Lacerda Montenegro | Trecho de 444 metros em frente ao CEI Zona Sul, número 260 | Parnamirim | 1,13 | 1,25 | 24,8 | 0 | 17,5 | 2 |
 | Avenida Abel Cabral | Trecho central de Nova Parnamirim | Parnamirim | 1 | 1 | 0 | 0 | 30 | 2 |
 | Avenida Ayrton Senna | Portelinha, sentido Natal | Parnamirim | 1 | 1 | 0 | 0 | 33 | 2 |
-| Avenida Maria Lacerda Montenegro | Eixo completo da avenida, 3,4 quilometros ate a Ayrton Senna | Parnamirim | 1 | 1 | 0 | 0 | 35 | 2 |
+| Avenida Maria Lacerda Montenegro | Eixo completo da avenida, 3,4 quilômetros até a Ayrton Senna | Parnamirim | 1 | 1 | 0 | 0 | 35 | 2 |
 | BR-101, Avenida Senador Salgado Filho | Trecho de Nova Parnamirim | Parnamirim | 1 | 1 | 0 | 0 | 70 | 2 |
 
 ![Perfil horario](docs/figuras/perfil-horario.png)
 
 ![Mapa de calor](docs/figuras/mapa-de-calor.png)
 
-### Quando o transito aperta
+### Quando o trânsito aperta
 
-| Janela | Indice medio | % critico | Amostras |
+| Janela | Índice médio | % crítico | Amostras |
 | --- | --- | --- | --- |
 | entrepico_manha | 1,03 | 0 | 10 |
 
 ### Por dia da semana
 
-| Dia | Indice medio | % critico | Amostras |
+| Dia | Índice médio | % crítico | Amostras |
 | --- | --- | --- | --- |
 | Saturday | 1,03 | 0 | 10 |
 
 ### Efeito da chuva
 
-| Chovendo | Indice medio | % critico | Amostras |
+| Chovendo | Índice médio | % crítico | Amostras |
 | --- | --- | --- | --- |
-| nao | 1,03 | 0 | 20 |
+| não | 1,03 | 0 | 20 |
 
 ### Piores momentos registrados
 
-| Segmento | Momento | Dia | Indice | Velocidade | Nivel |
+| Segmento | Momento | Dia | Índice | Velocidade | Nível |
 | --- | --- | --- | --- | --- | --- |
 | mlm-cei | 21/11 10:41 | Saturday | 1,26 | 15 | B |
 | abel-cabral | 21/11 10:41 | Saturday | 1 | 30 | A |
@@ -97,104 +93,89 @@ Serie de 10 amostras em 5 segmentos, cobrindo 1 dia, de 2026-11-21 a 2026-11-21.
 
 ## Como funciona
 
-A fonte primaria e o endpoint Flow Segment Data da TomTom, que devolve velocidade atual,
-velocidade de fluxo livre, tempo de percurso e confianca para o segmento viario mais proximo de
-um ponto. O plano gratuito da 20 mil requisicoes por mes, e esse teto e a restricao que organiza
-todo o desenho do projeto.
+A fonte é o endpoint Flow Segment Data da TomTom, que devolve velocidade atual, velocidade de
+fluxo livre, tempo de percurso e confiança para o ponto consultado. São 20 mil requisições por
+mês no plano gratuito, e esse teto organiza o projeto inteiro.
 
-Tres decisoes saem direto dessa restricao:
+**Lotes, não tudo de uma vez.** Nova Parnamirim primeiro, Zona Sul depois, Zona Norte por último.
+O comando `transito orcamento` projeta o consumo antes de gastar.
 
-**Os segmentos entram em lotes, nao de uma vez.** Nova Parnamirim roda primeiro, Zona Sul de
-Natal depois, Zona Norte por ultimo. Cada lote tem a sua cadencia por janela do dia, e o comando
-`transito orcamento` projeta o consumo antes de qualquer chamada, com margem de 15% sobre o teto.
+**Só nas janelas que importam.** Não faz sentido medir às três da manhã. O piloto roda a cada 15
+minutos nos picos, e inclui o fim de semana de propósito: sem esse contraste, nada prova que o
+gargalo é escolar.
 
-**A coleta so acontece nas janelas que importam.** Nao faz sentido gastar requisicao as tres da
-manha. O piloto roda a cada 15 minutos nos tres picos, e inclui sabado e domingo de proposito,
-porque so o contraste com o fim de semana prova que o gargalo e escolar.
+**Zoom calibrado por segmento.** O zoom da API não é escala de mapa, é a classe de via escolhida.
+O mesmo ponto devolve a BR-101 em zoom 10 e o trecho do portão em zoom 12. Sem calibrar, você
+mede outra rua.
 
-**O zoom e calibrado por segmento.** O parametro de zoom da API nao controla escala de mapa, ele
-decide a classe de via a que o ponto sera associado. O mesmo ponto em frente a escola devolve a
-BR-101 em zoom 10, o trecho de 444 metros do portao em zoom 12 e o eixo de 3,4 km em zoom 15.
-Sem calibrar, a medicao mede outra via.
+Chuva vem da Open-Meteo, grátis e sem chave. O agendamento roda no GitHub Actions e publica os
+parquets na branch `dados`, então não há servidor nem custo.
 
-O clima vem da Open-Meteo, que e gratuita e dispensa chave, para medir quanto a chuva piora o
-indice. O agendamento roda no GitHub Actions e publica os parquets na branch `dados`, entao o
-projeto inteiro funciona sem servidor e sem custo.
+## Métricas
 
-## Metricas
-
-| Metrica | O que responde |
+| Métrica | O que responde |
 | --- | --- |
-| Indice de tempo de viagem | quanto a viagem demora a mais do que em via livre, 1,0 e livre e 1,3 e o limiar de congestionamento |
-| Atraso por quilometro | tempo perdido normalizado pelo comprimento, permite comparar 444 metros com 7 quilometros |
-| Indice de planejamento | percentil 95 do indice, quanto tempo reservar para chegar no horario em 19 de cada 20 dias |
-| Indice de buffer | imprevisibilidade da via, dois corredores com a mesma media podem ser experiencias diferentes |
-| Nivel de servico | classificacao de A a F pela razao entre velocidade atual e velocidade livre |
+| Índice de tempo de viagem | quanto a viagem demora a mais do que em via livre, 1,0 é livre e 1,3 é o limiar |
+| Atraso por quilômetro | tempo perdido normalizado, compara 444 metros com 7 quilômetros |
+| Índice de planejamento | percentil 95, quanto reservar para chegar no horário em 19 de cada 20 dias |
+| Índice de buffer | imprevisibilidade, duas vias com a mesma média podem ser bem diferentes |
+| Nível de serviço | classificação de A a F pela razão entre velocidade atual e livre |
 
-A definicao de cada uma, as limitacoes do dado e como reproduzir tudo estao em
-[docs/metodologia.md](docs/metodologia.md).
+Definições, limitações e como reproduzir estão em [docs/metodologia.md](docs/metodologia.md).
 
 ## Arquitetura
 
-O projeto usa portas e adaptadores, com o dominio no centro e sem conhecer rede, arquivo ou
-formato.
-
 ```
 src/transito_natal/
-  domain/      entidades, metricas e janelas do dia, tudo puro e testavel sem rede
-  ports/       protocolos de fonte de trafego, fonte de clima e repositorio
-  adapters/    tomtom, openmeteo, catalogo em yaml e persistencia em parquet
-  application/ caso de uso de coleta, com tolerancia a falha e corte por limite de cota
+  domain/      entidades, métricas e janelas do dia, puro e testável sem rede
+  ports/       protocolos de fonte de tráfego, clima e repositório
+  adapters/    tomtom, openmeteo, catálogo em yaml, parquet
+  application/ caso de uso de coleta, tolera falha e corta por limite de cota
   analytics/   consultas duckdb sobre os parquets
-  reporting/   graficos, mapa, tabelas e injecao no leia-me
-  cli.py       interface de linha de comando
-config/segmentos.yaml   catalogo de lotes, segmentos, zoom e cadencia
+  reporting/   gráficos, mapa, tabelas e injeção no leia-me
+  cli.py       linha de comando
+config/segmentos.yaml   lotes, segmentos, zoom e cadência
 ```
 
-Isso nao e enfeite de arquitetura, resolve tres problemas reais do projeto:
+Portas e adaptadores aqui resolve três coisas concretas:
 
-**Trocar de provedor custa um arquivo.** Se a TomTom mudar o plano gratuito, escrever um
-adaptador HERE ou Mapbox nao encosta na analise nem no dominio.
-
-**Os testes rodam sem rede e sem cota.** As 77 verificacoes usam duplos de teste e HTTP simulado,
-entao a suite nao gasta requisicao nem depende da API estar no ar.
-
-**A regra mora em um lugar so.** O limiar de congestionamento de 1,3 e as faixas de nivel de
-servico sao constantes do dominio, e a camada SQL gera as suas clausulas `CASE` a partir delas.
-Mudar o limiar muda grafico, tabela, consulta e CLI ao mesmo tempo.
+- trocar TomTom por HERE ou Mapbox custa um arquivo, sem tocar na análise;
+- os testes rodam sem rede e sem gastar cota, com duplos e HTTP simulado;
+- o limiar de 1,3 e as faixas de nível vivem no domínio, e a camada SQL monta os `CASE` a partir
+  deles, então mudar a regra muda gráfico, tabela e consulta de uma vez.
 
 ## Comandos
 
 ```bash
 uv sync
-cp .env.example .env            # coloque a sua chave da TomTom aqui
+cp .env.example .env            # chave da TomTom aqui
 
-uv run transito orcamento       # projeta o consumo mensal por lote
-uv run transito segmentos       # lista os lotes e os segmentos cadastrados
-uv run transito calibrar        # confere a que via cada ponto esta colando
-uv run transito coletar         # roda uma coleta respeitando a cadencia
+uv run transito orcamento       # consumo mensal projetado por lote
+uv run transito segmentos       # lotes e segmentos cadastrados
+uv run transito calibrar        # confere a que via cada ponto está colando
+uv run transito coletar         # uma coleta, respeitando a cadência
 uv run transito analisar        # ranking de gargalos e perfil por janela
-uv run transito relatorio       # gera graficos, mapa e atualiza este leia-me
-uv run transito status          # cobertura da serie e vida restante da cota
+uv run transito relatorio       # gráficos, mapa e atualiza este leia-me
+uv run transito status          # cobertura da série e vida restante da cota
 ```
 
-## Se voce chegou aqui para estudar
+O `relatorio` também gera `docs/mapa.html`, fora do controle de versão porque o folium cria
+identificadores novos a cada execução.
 
-As partes que valem a leitura, na ordem:
+## Para quem veio estudar
 
 1. [`domain/metricas.py`](src/transito_natal/domain/metricas.py) e
-   [`domain/orcamento.py`](src/transito_natal/domain/orcamento.py), que mostram como transformar
-   uma restricao externa, 20 mil requisicoes por mes, em modelo de dominio com teste.
-2. [`application/coleta.py`](src/transito_natal/application/coleta.py), um caso de uso que
-   distingue falha toleravel de falha fatal: um segmento fora do ar nao derruba a rodada, mas
-   cota esgotada interrompe tudo na hora.
-3. [`analytics/analise.py`](src/transito_natal/analytics/analise.py), que deriva o esquema SQL do
-   mesmo esquema Arrow usado na gravacao, em vez de manter as duas definicoes em paralelo.
-4. [`docs/metodologia.md`](docs/metodologia.md), em especial a secao de limitacoes, que e a parte
-   mais importante de qualquer trabalho com dado de terceiro.
-5. [`reporting/estilo.py`](src/transito_natal/reporting/estilo.py), com a paleta verificada para
-   daltonismo em vez de escolhida no olho.
+   [`domain/orcamento.py`](src/transito_natal/domain/orcamento.py): transformar uma restrição
+   externa, 20 mil requisições por mês, em modelo de domínio testável.
+2. [`application/coleta.py`](src/transito_natal/application/coleta.py): separar falha tolerável de
+   falha fatal. Um segmento fora do ar não derruba a rodada, cota esgotada interrompe na hora.
+3. [`analytics/analise.py`](src/transito_natal/analytics/analise.py): derivar o esquema SQL do
+   mesmo esquema Arrow da gravação, em vez de manter as duas definições em paralelo.
+4. [`docs/metodologia.md`](docs/metodologia.md), em especial as limitações, que é a parte mais
+   importante de qualquer trabalho com dado de terceiro.
+5. [`reporting/estilo.py`](src/transito_natal/reporting/estilo.py): paleta verificada para
+   daltonismo, não escolhida no olho.
 
-## Licenca
+## Licença
 
-MIT. Os dados coletados seguem os termos de uso da TomTom e da Open-Meteo.
+MIT. Os dados seguem os termos de uso da TomTom e da Open-Meteo.

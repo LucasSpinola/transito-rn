@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Annotated
@@ -19,13 +20,17 @@ from transito_natal.ports.erros import ErroDeColeta
 from transito_natal.reporting.relatorio import gerar, injetar
 from transito_natal.reporting.tabelas import plural
 
+for fluxo in (sys.stdout, sys.stderr):
+    if fluxo is not None and fluxo.encoding.lower() not in {"utf-8", "utf8"}:
+        fluxo.reconfigure(encoding="utf-8", errors="replace")
+
 app = typer.Typer(
-    help="Coleta e analise de congestionamento em Natal e na conurbacao sul",
+    help="Coleta e análise de congestionamento em Natal e na conurbação sul",
     no_args_is_help=True,
     add_completion=False,
 )
 
-OpcaoCatalogo = Annotated[Path | None, typer.Option("--catalogo", help="Caminho do catalogo")]
+OpcaoCatalogo = Annotated[Path | None, typer.Option("--catalogo", help="Caminho do catálogo")]
 OpcaoLote = Annotated[str | None, typer.Option("--lote", help="Restringe a um lote")]
 
 
@@ -51,7 +56,7 @@ def orcamento(catalogo: OpcaoCatalogo = None) -> None:
         projecao = catalogo_carregado.orcamento(apenas_ativos=apenas_ativos)
         cor = typer.colors.GREEN if projecao.cabe else typer.colors.RED
         typer.secho(
-            f"\n{rotulo}: {projecao.requisicoes_por_mes} requisicoes por mes, "
+            f"\n{rotulo}: {projecao.requisicoes_por_mes} requisições por mês, "
             f"{projecao.uso_do_limite:.1%} do limite de {projecao.limite_mensal}",
             fg=cor,
             bold=True,
@@ -60,9 +65,9 @@ def orcamento(catalogo: OpcaoCatalogo = None) -> None:
             typer.echo(
                 f"  {consumo.lote:<20} {consumo.segmentos:>2} segmentos  "
                 f"{consumo.coletas_por_dia:>3} coletas por dia  "
-                f"{consumo.requisicoes_por_mes:>6} por mes"
+                f"{consumo.requisicoes_por_mes:>6} por mês"
             )
-        typer.echo(f"  folga sobre o teto utilizavel: {projecao.folga} requisicoes")
+        typer.echo(f"  folga sobre o teto utilizável: {projecao.folga} requisições")
 
 
 @app.command()
@@ -84,7 +89,7 @@ def segmentos(catalogo: OpcaoCatalogo = None, lote: OpcaoLote = None) -> None:
 def coletar(
     catalogo: OpcaoCatalogo = None,
     lote: OpcaoLote = None,
-    forcar: Annotated[bool, typer.Option("--forcar", help="Ignora a cadencia")] = False,
+    forcar: Annotated[bool, typer.Option("--forcar", help="Ignora a cadência")] = False,
 ) -> None:
     configuracao, catalogo_carregado = _carregar(catalogo)
     chave = _exigir_chave(configuracao)
@@ -101,7 +106,7 @@ def coletar(
     if not selecionados:
         typer.echo(
             f"nada a coletar em {momento_local(momento):%d/%m %H:%M} "
-            f"({classificar(momento)}), fora da cadencia configurada"
+            f"({classificar(momento)}), fora da cadência configurada"
         )
         raise typer.Exit(code=0)
 
@@ -127,7 +132,7 @@ def calibrar(catalogo: OpcaoCatalogo = None, lote: OpcaoLote = None) -> None:
     chave = _exigir_chave(configuracao)
     alvos = catalogo_carregado.lote(lote).segmentos if lote else catalogo_carregado.listar_tudo()
 
-    typer.secho(f"consultando {len(alvos)} segmentos, uma requisicao cada\n", bold=True)
+    typer.secho(f"consultando {len(alvos)} segmentos, uma requisição cada\n", bold=True)
     momento = datetime.now(UTC)
     with FonteTomTom(chave=chave) as trafego:
         for segmento in alvos:
@@ -146,18 +151,18 @@ def calibrar(catalogo: OpcaoCatalogo = None, lote: OpcaoLote = None) -> None:
                 f"{amostra.comprimento_m / 1000:>5.2f} km  "
                 f"{amostra.velocidade_atual_kmh:>3.0f} de "
                 f"{amostra.velocidade_livre_kmh:>3.0f} kmh  "
-                f"indice {indice_tempo_viagem(amostra):>4.2f}  "
-                f"nivel {nivel_servico(amostra)}{divergencia}"
+                f"índice {indice_tempo_viagem(amostra):>4.2f}  "
+                f"nível {nivel_servico(amostra)}{divergencia}"
             )
     typer.echo(
-        f"\nreferencia temporal: {momento_local(momento):%d/%m %H:%M} ({classificar(momento)})"
+        f"\nreferência temporal: {momento_local(momento):%d/%m %H:%M} ({classificar(momento)})"
     )
 
 
 @app.command()
 def analisar(
     catalogo: OpcaoCatalogo = None,
-    minimo: Annotated[int, typer.Option("--minimo", help="Minimo de amostras")] = 1,
+    minimo: Annotated[int, typer.Option("--minimo", help="Mínimo de amostras")] = 1,
 ) -> None:
     configuracao, catalogo_carregado = _carregar(catalogo)
     with Analise(configuracao.dados, catalogo_carregado.listar_tudo()) as analise:
@@ -173,19 +178,19 @@ def analisar(
             f"de {cobertura['primeiro_dia']} a {cobertura['ultimo_dia']}",
             bold=True,
         )
-        typer.secho("\ngargalos por indice de tempo de viagem", bold=True)
+        typer.secho("\ngargalos por índice de tempo de viagem", bold=True)
         for posicao, linha in enumerate(analise.ranking_de_gargalos(minimo), start=1):
             typer.echo(
-                f"  {posicao:>2}. {linha['segmento']:<26} indice {linha['indice_medio']:>5.2f}  "
+                f"  {posicao:>2}. {linha['segmento']:<26} índice {linha['indice_medio']:>5.2f}  "
                 f"p95 {linha['indice_p95']:>5.2f}  "
                 f"atraso {linha['atraso_medio_s_km']:>5.0f} s/km  "
-                f"critico {linha['percentual_critico']:>5.1f}%"
+                f"crítico {linha['percentual_critico']:>5.1f}%"
             )
         typer.secho("\njanelas do dia", bold=True)
         for linha in analise.perfil_por_janela():
             typer.echo(
-                f"  {linha['janela']:<18} indice {linha['indice_medio']:>5.2f}  "
-                f"critico {linha['percentual_critico']:>5.1f}%  "
+                f"  {linha['janela']:<18} índice {linha['indice_medio']:>5.2f}  "
+                f"crítico {linha['percentual_critico']:>5.1f}%  "
                 f"{linha['amostras']} amostras"
             )
 
@@ -231,7 +236,7 @@ def status(catalogo: OpcaoCatalogo = None) -> None:
         f"{plural(len(dias), 'dia', 'dias')}, de {dias[0]} a {dias[-1]}"
     )
     projecao = catalogo_carregado.orcamento()
-    typer.echo(f"vida restante da cota no mes: {projecao.vida_restante(total).days} dias")
+    typer.echo(f"vida restante da cota no mês: {projecao.vida_restante(total).days} dias")
 
 
 if __name__ == "__main__":

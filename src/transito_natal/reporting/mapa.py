@@ -43,9 +43,9 @@ def desenhar(
         descricao = (
             f"<b>{segmento.via}</b><br>{segmento.referencia}<br>"
             f"{segmento.bairro}, {segmento.municipio}<br><br>"
-            f"indice medio {indice:.2f}<br>"
-            f"indice no percentil 95 {linha['indice_p95']:.2f}<br>"
-            f"atraso medio {linha['atraso_medio_s_km']:.0f} s/km<br>"
+            f"índice médio {indice:.2f}<br>"
+            f"índice no percentil 95 {linha['indice_p95']:.2f}<br>"
+            f"atraso médio {linha['atraso_medio_s_km']:.0f} s/km<br>"
             f"{linha['percentual_critico']:.0f}% das amostras em congestionamento<br>"
             f"{linha['amostras']} amostras"
         )
@@ -57,7 +57,7 @@ def desenhar(
             fill=True,
             fill_color=_cor(indice),
             fill_opacity=0.85,
-            tooltip=f"{segmento.identificador}, indice {indice:.2f}",
+            tooltip=f"{segmento.identificador}, índice {indice:.2f}",
             popup=folium.Popup(descricao, max_width=280),
         ).add_to(mapa)
 

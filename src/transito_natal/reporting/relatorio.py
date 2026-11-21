@@ -16,33 +16,33 @@ SEGMENTOS_NO_PERFIL = 5
 COLUNAS_DO_RANKING = {
     "via": "Via",
     "referencia": "Trecho",
-    "municipio": "Municipio",
-    "indice_medio": "Indice medio",
-    "indice_p95": "Indice p95",
+    "municipio": "Município",
+    "indice_medio": "Índice médio",
+    "indice_p95": "Índice p95",
     "atraso_medio_s_km": "Atraso s/km",
-    "percentual_critico": "% critico",
-    "velocidade_media_kmh": "Velocidade media",
+    "percentual_critico": "% crítico",
+    "velocidade_media_kmh": "Velocidade média",
     "amostras": "Amostras",
 }
 
 COLUNAS_DA_JANELA = {
     "janela": "Janela",
-    "indice_medio": "Indice medio",
-    "percentual_critico": "% critico",
+    "indice_medio": "Índice médio",
+    "percentual_critico": "% crítico",
     "amostras": "Amostras",
 }
 
 COLUNAS_DO_DIA = {
     "nome_do_dia": "Dia",
-    "indice_medio": "Indice medio",
-    "percentual_critico": "% critico",
+    "indice_medio": "Índice médio",
+    "percentual_critico": "% crítico",
     "amostras": "Amostras",
 }
 
 COLUNAS_DA_CHUVA = {
     "chovendo": "Chovendo",
-    "indice_medio": "Indice medio",
-    "percentual_critico": "% critico",
+    "indice_medio": "Índice médio",
+    "percentual_critico": "% crítico",
     "amostras": "Amostras",
 }
 
@@ -50,9 +50,9 @@ COLUNAS_DOS_PIORES = {
     "segmento": "Segmento",
     "momento": "Momento",
     "nome_do_dia": "Dia",
-    "indice": "Indice",
+    "indice": "Índice",
     "velocidade_atual_kmh": "Velocidade",
-    "nivel": "Nivel",
+    "nivel": "Nível",
 }
 
 
@@ -64,9 +64,9 @@ class Relatorio(NamedTuple):
 
 def _cabecalho(cobertura: dict[str, object]) -> str:
     if not cobertura.get("amostras"):
-        return "Nenhuma amostra coletada ate agora."
+        return "Nenhuma amostra coletada até agora."
     return (
-        f"Serie de {tabelas.plural(cobertura['amostras'], 'amostra', 'amostras')} em "
+        f"Série de {tabelas.plural(cobertura['amostras'], 'amostra', 'amostras')} em "
         f"{tabelas.plural(cobertura['segmentos'], 'segmento', 'segmentos')}, cobrindo "
         f"{tabelas.plural(cobertura['dias'], 'dia', 'dias')}, de {cobertura['primeiro_dia']} "
         f"a {cobertura['ultimo_dia']}."
@@ -110,7 +110,7 @@ def gerar(
 
     partes.append(
         _secao(
-            "Quando o transito aperta",
+            "Quando o trânsito aperta",
             tabelas.markdown(analise.perfil_por_janela(), COLUNAS_DA_JANELA),
         )
     )

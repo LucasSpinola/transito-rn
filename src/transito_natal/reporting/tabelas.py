@@ -14,7 +14,7 @@ def _celula(valor: Any) -> str:
     if valor is None:
         return "sem dado"
     if isinstance(valor, bool):
-        return "sim" if valor else "nao"
+        return "sim" if valor else "não"
     if isinstance(valor, float):
         return f"{valor:.2f}".rstrip("0").rstrip(".").replace(".", ",") or "0"
     return str(valor)

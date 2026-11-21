@@ -23,7 +23,7 @@ def test_tabela_formata_decimal_com_virgula_e_booleano_em_texto():
 
 def test_tabela_remove_zero_decimal_desnecessario():
     linhas = [{"via": "Avenida Abel Cabral", "indice_medio": 30.0, "chovendo": False}]
-    assert "| Avenida Abel Cabral | 30 | nao |" in tabelas.markdown(linhas, COLUNAS)
+    assert "| Avenida Abel Cabral | 30 | não |" in tabelas.markdown(linhas, COLUNAS)
 
 
 def test_tabela_marca_coluna_ausente():
@@ -39,7 +39,7 @@ def gerado(tmp_path):
 
 def test_relatorio_escreve_achados_e_figuras(gerado):
     texto = gerado.achados.read_text(encoding="utf-8")
-    assert "Serie de 60 amostras em 2 segmentos, cobrindo 5 dias" in texto
+    assert "Série de 60 amostras em 2 segmentos, cobrindo 5 dias" in texto
     assert "Gargalos medidos" in texto
     assert "Efeito da chuva" in texto
     assert len(gerado.figuras) == 3
@@ -50,7 +50,7 @@ def test_relatorio_desenha_mapa_navegavel(gerado):
     assert gerado.mapa is not None
     conteudo = gerado.mapa.read_text(encoding="utf-8")
     assert "Avenida Maria Lacerda Montenegro" in conteudo
-    assert "indice medio" in conteudo
+    assert "índice médio" in conteudo
 
 
 def test_relatorio_sem_amostras_nao_gera_figura(tmp_path):

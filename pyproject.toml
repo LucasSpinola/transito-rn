@@ -1,7 +1,7 @@
 [project]
 name = "transito-natal"
 version = "0.1.0"
-description = "Medicao propria de congestionamento viario em Natal e na conurbacao sul, com dados abertos e series temporais"
+description = "Medição própria de congestionamento viário em Natal e na conurbação sul, com dados abertos e série temporal própria"
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 license = { text = "MIT" }
