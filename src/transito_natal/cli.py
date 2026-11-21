@@ -10,11 +10,13 @@ from transito_natal.adapters.armazenamento.catalogo_yaml import Catalogo, carreg
 from transito_natal.adapters.armazenamento.parquet import RepositorioParquet
 from transito_natal.adapters.openmeteo.cliente import FonteOpenMeteo
 from transito_natal.adapters.tomtom.cliente import FonteTomTom
+from transito_natal.analytics.analise import Analise
 from transito_natal.application.coleta import ExecutarColeta
-from transito_natal.configuracao import Configuracao
+from transito_natal.configuracao import RAIZ_DO_PROJETO, Configuracao
 from transito_natal.domain.janelas import classificar, momento_local
 from transito_natal.domain.metricas import indice_tempo_viagem, nivel_servico
 from transito_natal.ports.erros import ErroDeColeta
+from transito_natal.reporting.relatorio import gerar, injetar
 
 app = typer.Typer(
     help="Coleta e analise de congestionamento em Natal e na conurbacao sul",
@@ -149,6 +151,61 @@ def calibrar(catalogo: OpcaoCatalogo = None, lote: OpcaoLote = None) -> None:
     typer.echo(
         f"\nreferencia temporal: {momento_local(momento):%d/%m %H:%M} ({classificar(momento)})"
     )
+
+
+@app.command()
+def analisar(
+    catalogo: OpcaoCatalogo = None,
+    minimo: Annotated[int, typer.Option("--minimo", help="Minimo de amostras")] = 1,
+) -> None:
+    configuracao, catalogo_carregado = _carregar(catalogo)
+    with Analise(configuracao.dados, catalogo_carregado.listar_tudo()) as analise:
+        if analise.vazio:
+            typer.secho("nenhuma amostra coletada ainda", fg=typer.colors.YELLOW)
+            raise typer.Exit(code=0)
+
+        cobertura = analise.cobertura()
+        typer.secho(
+            f"{cobertura['amostras']} amostras em {cobertura['segmentos']} segmentos, "
+            f"{cobertura['dias']} dias, de {cobertura['primeiro_dia']} a {cobertura['ultimo_dia']}",
+            bold=True,
+        )
+        typer.secho("\ngargalos por indice de tempo de viagem", bold=True)
+        for posicao, linha in enumerate(analise.ranking_de_gargalos(minimo), start=1):
+            typer.echo(
+                f"  {posicao:>2}. {linha['segmento']:<26} indice {linha['indice_medio']:>5.2f}  "
+                f"p95 {linha['indice_p95']:>5.2f}  "
+                f"atraso {linha['atraso_medio_s_km']:>5.0f} s/km  "
+                f"critico {linha['percentual_critico']:>5.1f}%"
+            )
+        typer.secho("\njanelas do dia", bold=True)
+        for linha in analise.perfil_por_janela():
+            typer.echo(
+                f"  {linha['janela']:<18} indice {linha['indice_medio']:>5.2f}  "
+                f"critico {linha['percentual_critico']:>5.1f}%  "
+                f"{linha['amostras']} amostras"
+            )
+
+
+@app.command()
+def relatorio(catalogo: OpcaoCatalogo = None) -> None:
+    configuracao, catalogo_carregado = _carregar(catalogo)
+    pasta_de_figuras = RAIZ_DO_PROJETO / "docs" / "figuras"
+    with Analise(configuracao.dados, catalogo_carregado.listar_tudo()) as analise:
+        gerado = gerar(
+            analise,
+            catalogo_carregado.listar_tudo(),
+            pasta_de_figuras,
+            RAIZ_DO_PROJETO / "docs" / "achados.md",
+        )
+
+    typer.secho(f"achados escritos em {gerado.achados}", fg=typer.colors.GREEN, bold=True)
+    for figura in gerado.figuras:
+        typer.echo(f"  figura: {figura}")
+    if gerado.mapa:
+        typer.echo(f"  mapa: {gerado.mapa}")
+    if injetar(RAIZ_DO_PROJETO / "README.md", gerado.achados):
+        typer.echo("  readme atualizado entre as marcas de achados")
 
 
 @app.command()

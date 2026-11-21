@@ -14,13 +14,8 @@ dependencies = [
     "duckdb>=1.1",
     "pyarrow>=18.0",
     "tzdata>=2024.2; platform_system == 'Windows'",
-]
-
-[project.optional-dependencies]
-relatorio = [
     "matplotlib>=3.9",
     "folium>=0.19",
-    "pandas>=2.2",
 ]
 
 [project.scripts]
