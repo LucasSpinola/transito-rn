@@ -101,7 +101,7 @@ class Analise:
             JOIN segmentos s ON s.identificador = a.segmento
             GROUP BY ALL
             HAVING count(*) >= ?
-            ORDER BY indice_medio DESC
+            ORDER BY indice_medio DESC, atraso_medio_s_km DESC, a.segmento
             """,
             [minimo_de_amostras],
         )
@@ -116,7 +116,7 @@ class Analise:
                 round(100.0 * sum(critica) / count(*), 1) AS percentual_critico
             FROM amostras
             GROUP BY ALL
-            ORDER BY indice_medio DESC
+            ORDER BY indice_medio DESC, janela
             """
         )
 
@@ -199,7 +199,7 @@ class Analise:
                 velocidade_atual_kmh,
                 nivel
             FROM amostras
-            ORDER BY indice DESC
+            ORDER BY indice DESC, segmento, coletado_em
             LIMIT ?
             """,
             [limite],

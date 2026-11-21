@@ -132,3 +132,18 @@ def test_efeito_da_chuva_compara_os_dois_estados(tmp_path):
     chuva = next(linha for linha in efeito if linha["chovendo"])
     seco = next(linha for linha in efeito if not linha["chovendo"])
     assert chuva["indice_medio"] > seco["indice_medio"]
+
+
+def test_ranking_desempata_de_forma_estavel(tmp_path):
+    semear(tmp_path)
+    ordens = []
+    for _ in range(3):
+        with Analise(tmp_path, SEGMENTOS) as instancia:
+            ordens.append([linha["segmento"] for linha in instancia.ranking_de_gargalos()])
+    assert ordens[0] == ordens[1] == ordens[2]
+
+
+def test_piores_momentos_desempatam_de_forma_estavel(analise):
+    primeiro = analise.piores_momentos(limite=10)
+    segundo = analise.piores_momentos(limite=10)
+    assert [linha["momento"] for linha in primeiro] == [linha["momento"] for linha in segundo]
