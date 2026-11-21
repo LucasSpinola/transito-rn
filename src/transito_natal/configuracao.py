@@ -32,8 +32,9 @@ class Configuracao(BaseModel):
     @classmethod
     def do_ambiente(cls, catalogo: Path | None = None, dados: Path | None = None) -> Configuracao:
         carregar_ambiente()
+        do_ambiente = os.environ.get("TRANSITO_PASTA_DADOS")
         return cls(
             catalogo=catalogo or CAMINHO_PADRAO_DO_CATALOGO,
-            dados=dados or PASTA_PADRAO_DE_DADOS,
+            dados=dados or (Path(do_ambiente) if do_ambiente else PASTA_PADRAO_DE_DADOS),
             chave_tomtom=os.environ.get("TOMTOM_API_KEY", ""),
         )

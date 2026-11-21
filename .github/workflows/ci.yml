@@ -1,0 +1,34 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Clonar o codigo
+        uses: actions/checkout@v4
+
+      - name: Preparar o ambiente
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Instalar dependencias
+        run: uv sync --frozen
+
+      - name: Conferir formatacao
+        run: uv run ruff format --check .
+
+      - name: Conferir lint
+        run: uv run ruff check .
+
+      - name: Rodar testes
+        run: uv run pytest --cov=transito_natal --cov-report=term-missing

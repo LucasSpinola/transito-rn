@@ -1,0 +1,65 @@
+name: coleta
+
+on:
+  schedule:
+    - cron: "*/15 8-11 * * *"
+    - cron: "*/15 14-16 * * *"
+    - cron: "*/15 19-22 * * *"
+    - cron: "0 12,13,17,18 * * *"
+  workflow_dispatch:
+    inputs:
+      forcar:
+        description: Ignora a cadencia e coleta todos os lotes ativos
+        type: boolean
+        default: false
+
+concurrency:
+  group: coleta
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  amostrar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Clonar o codigo
+        uses: actions/checkout@v4
+
+      - name: Clonar a branch de dados
+        uses: actions/checkout@v4
+        with:
+          ref: dados
+          path: serie
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Preparar o ambiente
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Instalar dependencias
+        run: uv sync --no-dev --frozen
+
+      - name: Coletar amostras
+        env:
+          TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
+          TRANSITO_PASTA_DADOS: serie/raw
+        run: uv run transito coletar ${{ inputs.forcar && '--forcar' || '' }}
+
+      - name: Publicar na branch de dados
+        working-directory: serie
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "nenhuma amostra nova nesta rodada"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add raw
+          git commit -m "chore: amostras de $(date -u +'%Y-%m-%d %H:%M') utc"
+          git push
