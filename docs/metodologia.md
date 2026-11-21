@@ -72,18 +72,47 @@ de 15% sobre o teto mensal. A projeção atual:
 | --- | --- | --- | --- |
 | parnamirim-cei | 3 | 36 | 3348 |
 | natal-zona-sul | 5 | 17 | 1955 |
-| natal-zona-leste | 5 | 17 | 1955 |
-| natal-zona-norte | 5 | 17 | 1955 |
+| natal-zona-leste | 6 | 17 | 2346 |
+| natal-zona-norte | 6 | 17 | 2346 |
 | natal-zona-oeste | 5 | 17 | 1955 |
 | regiao-metropolitana | 6 | 17 | 2346 |
-| mossoro | 4 | 8 | 736 |
-| interior-regional | 4 | 8 | 736 |
-| corredores-rodoviarios | 5 | 4 | 460 |
-| total | 42 | | 15446, ou 77,2% do limite |
+| mossoro | 4 | 17 | 1564 |
+| acessos-rodoviarios | 2 | 3 | 138 |
+| total | 37 | | 15998, ou 80% do limite |
 
 Os lotes entram em operação de forma escalonada, não todos de uma vez. Enquanto só o piloto
 estiver ativo, o consumo fica em 16,7% do limite, o que deixa folga para recalibragem e para
 rodadas manuais de teste.
+
+## Cobertura de sonda, e por que o interior ficou de fora
+
+O dado da TomTom depende de dispositivos conectados circulando na via. Onde não há penetração
+suficiente, a API não devolve erro, devolve o valor histórico de fluxo livre como se fosse a
+medição atual. A assinatura disso é `currentSpeed` exatamente igual a `freeFlowSpeed` com
+`confidence` igual a 1.
+
+Uma rodada de calibração em 21 de novembro de 2026, às 11h56, horário de pico do almoço, mediu
+treze pontos de uma vez:
+
+| Ponto | Resultado | Confiança |
+| --- | --- | --- |
+| Portão do CEI, Nova Parnamirim | 15 de 20 km/h, índice 1,15 | 0,84 |
+| Avenida Alberto Maranhão, Mossoró | 25 de 30 km/h, índice 1,20 | abaixo de 1 |
+| Caicó, Assu, Pau dos Ferros, Currais Novos | atual igual ao fluxo livre | 1 |
+| BR-304 em Assu, BR-226 em Currais Novos, BR-405 em Pau dos Ferros | atual igual ao fluxo livre | 1 |
+
+Uma leitura isolada não distingue com certeza via genuinamente livre de resposta estática. O que
+pesa é o padrão: nenhum ponto do interior variou, enquanto no mesmo instante a capital e Mossoró
+variaram. Gastar cota mensal em pontos que devolvem sempre o mesmo número produziria série sem
+informação, então os quatro centros do interior e os três trechos rodoviários distantes saíram do
+catálogo, e a cota voltou para onde existe sinal: dois segmentos novos em Natal e Mossoró subindo
+de 60 para 30 minutos de cadência.
+
+Isso é uma limitação da fonte, não do interior. Caicó e Pau dos Ferros têm congestionamento real,
+só não têm quem o registre. Medir ali exigiria contagem em campo ou convênio para acesso a dados
+de operadora, e fica registrado como trabalho futuro. A base de sinistros da PRF continua cobrindo
+o estado inteiro, então o interior segue presente no diagnóstico de risco, ainda que ausente do de
+lentidão.
 
 ## Métricas
 

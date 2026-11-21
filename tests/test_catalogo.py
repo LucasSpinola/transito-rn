@@ -24,15 +24,14 @@ def test_cobre_as_quatro_zonas_de_natal_e_o_interior(catalogo):
         "natal-zona-oeste",
         "regiao-metropolitana",
         "mossoro",
-        "interior-regional",
-        "corredores-rodoviarios",
+        "acessos-rodoviarios",
     ]
 
 
 def test_apenas_o_lote_piloto_comeca_ativo(catalogo):
     assert [lote.identificador for lote in catalogo.lotes if lote.ativo] == ["parnamirim-cei"]
     assert len(catalogo.listar()) == 3
-    assert len(catalogo.listar_tudo()) == 42
+    assert len(catalogo.listar_tudo()) == 37
 
 
 def test_identificadores_sao_unicos(catalogo):
@@ -42,7 +41,7 @@ def test_identificadores_sao_unicos(catalogo):
 
 def test_cobre_os_municipios_que_importam(catalogo):
     municipios = {segmento.municipio for segmento in catalogo.listar_tudo()}
-    assert {"Natal", "Parnamirim", "Mossoró", "Caicó", "Pau dos Ferros"} <= municipios
+    assert {"Natal", "Parnamirim", "Mossoró", "Macaíba", "São Gonçalo do Amarante"} <= municipios
 
 
 def test_segmento_herda_o_lote_de_origem(catalogo):

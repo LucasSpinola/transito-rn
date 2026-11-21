@@ -7,7 +7,7 @@ dá para fazer em cada caso.
 
 **Onde trava** nenhuma base pública responde. O portal de mobilidade da STTU publica só o catálogo
 estático de linhas e itinerários, e fora de Natal não existe medição nenhuma. Então o projeto mede
-por conta própria: 42 segmentos viários consultados nos horários de pico, acumulando série em
+por conta própria: 37 segmentos viários consultados nos horários de pico, acumulando série em
 parquet.
 
 **Onde morre** a PRF responde desde 2007. A base de sinistros em rodovias federais traz BR,
@@ -22,17 +22,22 @@ rápido e letal. Lagoa Nova lidera os sinistros de Natal e nem por isso lidera o
 | Lote | Onde | Segmentos |
 | --- | --- | --- |
 | parnamirim-cei | Entorno do CEI Zona Sul, em Nova Parnamirim | 3 |
-| natal-zona-sul | Ponta Negra, Lagoa Nova, Capim Macio | 5 |
-| natal-zona-leste | Tirol, Petrópolis, Alecrim, Ribeira, Cidade Alta | 5 |
-| natal-zona-norte | Travessias do Potengi, Potengi, Igapó, Lagoa Azul | 5 |
+| natal-zona-sul | Ponta Negra, Lagoa Nova | 5 |
+| natal-zona-leste | Tirol, Petrópolis, Alecrim, Ribeira, Cidade Alta | 6 |
+| natal-zona-norte | Travessias do Potengi, Potengi, Igapó, Lagoa Azul | 6 |
 | natal-zona-oeste | Bom Pastor, Dix-Sept Rosado, Nordeste, Felipe Camarão | 5 |
 | regiao-metropolitana | Parnamirim, São Gonçalo, Macaíba, Extremoz | 6 |
-| mossoro | Presidente Dutra, Rio Branco, Francisco Mota | 4 |
-| interior-regional | Currais Novos, Caicó, Assu, Pau dos Ferros | 4 |
-| corredores-rodoviarios | BR-101, BR-304, BR-226, BR-405, RN-063 | 5 |
+| mossoro | Presidente Dutra, Rio Branco, Francisco Mota, Alberto Maranhão | 4 |
+| acessos-rodoviarios | BR-101 em São José de Mipibu, RN-063 em Pium | 2 |
 
 Os lotes entram em operação aos poucos, não todos juntos, porque o teto da API é mensal e o
 consumo precisa ser observado antes de crescer.
+
+Currais Novos, Caicó, Assu e Pau dos Ferros foram medidos e removidos. A TomTom devolve ali o
+valor histórico de fluxo livre em vez de medição, porque não há sonda suficiente circulando, e
+gastar cota nisso geraria série sem informação. O critério e os números estão na
+[metodologia](docs/metodologia.md). O interior continua no diagnóstico de risco, pela base da PRF,
+só não entra no de lentidão.
 
 ## O caso que abriu o projeto
 
@@ -54,13 +59,13 @@ evidência, estão em
 [docs/propostas/entorno-cei-zona-sul.md](docs/propostas/entorno-cei-zona-sul.md).
 
 Esse caso é o método em escala pequena, não o objetivo do projeto. O mesmo tratamento se aplica a
-qualquer um dos 42 segmentos assim que a série deles encher.
+qualquer um dos 37 segmentos assim que a série deles encher.
 
 ## Achados da série
 
 <!-- inicio dos achados -->
 
-Atualizado em 21/11/2026 14:26 utc pelo comando `transito relatorio`.
+Atualizado em 21/11/2026 14:59 utc pelo comando `transito relatorio`.
 
 Série de 10 amostras em 5 segmentos, cobrindo 1 dia, de 2026-11-21 a 2026-11-21.
 
@@ -122,13 +127,13 @@ velocidade de fluxo livre e tempo de percurso para o ponto consultado. São 20 m
 mês no plano gratuito, e esse teto organiza o projeto inteiro.
 
 **Lotes, não tudo de uma vez.** O comando `transito orcamento` projeta o consumo antes de gastar e
-recusa plano acima do teto. Com os nove lotes ligados, a projeção é de 15.446 requisições por mês,
-77% do limite.
+recusa plano acima do teto. Com os oito lotes ligados, a projeção é de 15.998 requisições por mês,
+80% do limite.
 
 **Só nas janelas que importam.** O piloto roda a cada 15 minutos nos picos e inclui o fim de
 semana de propósito, porque sem esse contraste nada prova que o gargalo é escolar. As zonas de
-Natal rodam a cada 30 minutos em dias úteis, Mossoró e o interior a cada 60, as rodovias a cada
-120.
+Natal, a região metropolitana e Mossoró rodam a cada 30 minutos em dias úteis, e os acessos
+rodoviários a cada 120.
 
 **Zoom calibrado por segmento.** O zoom da API não é escala de mapa, é a classe de via escolhida.
 O mesmo ponto devolve a BR-101 em zoom 10 e o trecho do portão da escola em zoom 12. Sem calibrar,

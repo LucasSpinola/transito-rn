@@ -182,6 +182,18 @@ lotes:
           latitude: -5.7821377
           longitude: -35.2050392
 
+      - identificador: coronel-estevam
+        via: Avenida Coronel Estevam
+        referencia: Ocidental de Cima, Alecrim
+        bairro: Alecrim
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Segundo eixo do comércio popular do Alecrim, paralelo à Presidente Bandeira
+        ponto:
+          latitude: -5.7934314
+          longitude: -35.2131286
+
   - identificador: natal-zona-norte
     descricao: Travessias do rio Potengi e corredores da Zona Norte, que abriga cerca de 40% da população da cidade com duas únicas ligações
     ativo: false
@@ -247,6 +259,18 @@ lotes:
         ponto:
           latitude: -5.7503185
           longitude: -35.2621393
+
+      - identificador: itapetinga
+        via: Avenida Itapetinga
+        referencia: Santarém, Potengi
+        bairro: Potengi
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Distribuição interna do maior conjunto habitacional da Zona Norte
+        ponto:
+          latitude: -5.7426536
+          longitude: -35.2489215
 
   - identificador: natal-zona-oeste
     descricao: Eixos que alimentam as travessias do Potengi e atendem os bairros de renda mais baixa da capital
@@ -397,9 +421,9 @@ lotes:
     cadencia:
       apenas_dias_uteis: true
       intervalos_min:
-        pico_manha: 60
-        pico_almoco: 60
-        pico_tarde: 60
+        pico_manha: 30
+        pico_almoco: 30
+        pico_tarde: 30
     segmentos:
       - identificador: mossoro-dutra
         via: Avenida Presidente Dutra
@@ -446,63 +470,8 @@ lotes:
           latitude: -5.1930268
           longitude: -37.3453293
 
-  - identificador: interior-regional
-    descricao: Centros regionais do Seridó, do Vale do Açu e do Alto Oeste, onde não existe nenhuma medição de tráfego publicada
-    ativo: false
-    cadencia:
-      apenas_dias_uteis: true
-      intervalos_min:
-        pico_manha: 60
-        pico_almoco: 60
-        pico_tarde: 60
-    segmentos:
-      - identificador: currais-novos
-        via: Avenida Coronel José Bezerra
-        referencia: Antônio Rafael
-        bairro: Antônio Rafael
-        municipio: Currais Novos
-        classe: arterial
-        zoom: 15
-        motivo: Polo do Seridó, entroncamento da BR-226 com a malha urbana
-        ponto:
-          latitude: -6.2664488
-          longitude: -36.5180713
-      - identificador: caico
-        via: Avenida Coronel Martiniano
-        referencia: Maynard
-        bairro: Maynard
-        municipio: Caicó
-        classe: arterial
-        zoom: 15
-        motivo: Maior cidade do Seridó e centro de serviços da região
-        ponto:
-          latitude: -6.4776286
-          longitude: -37.0704214
-      - identificador: acu
-        via: Centro de Assu
-        referencia: Área central
-        bairro: Centro
-        municipio: Assu
-        classe: arterial
-        zoom: 15
-        motivo: Polo do Vale do Açu, com tráfego pesado do agronegócio e do petróleo
-        ponto:
-          latitude: -5.5744011
-          longitude: -36.9068836
-      - identificador: pau-dos-ferros
-        via: Avenida Getúlio Vargas
-        referencia: Centro
-        bairro: Centro
-        municipio: Pau dos Ferros
-        classe: arterial
-        zoom: 15
-        motivo: Centro do Alto Oeste, na divisa com Ceará e Paraíba
-        ponto:
-          latitude: -6.1145148
-          longitude: -38.2007632
-
-  - identificador: corredores-rodoviarios
-    descricao: Trechos das rodovias que estruturam o estado, onde a base de sinistros da PRF permite cruzar lentidão com risco
+  - identificador: acessos-rodoviarios
+    descricao: Acessos rodoviários da região metropolitana, os únicos trechos de rodovia com sonda ativa suficiente para medição
     ativo: false
     cadencia:
       apenas_dias_uteis: true
@@ -510,7 +479,6 @@ lotes:
         pico_manha: 120
         pico_almoco: 120
         pico_tarde: 120
-        entrepico_tarde: 180
     segmentos:
       - identificador: br101-sao-jose
         via: BR-101, Rodovia Governador Mário Covas
@@ -523,39 +491,6 @@ lotes:
         ponto:
           latitude: -6.0901667
           longitude: -35.2342612
-      - identificador: br304-acu
-        via: BR-304
-        referencia: Jardim das Carnaúbas, Assu
-        bairro: Jardim das Carnaúbas
-        municipio: Assu
-        classe: troncal
-        zoom: 10
-        motivo: Principal ligação entre Natal e Mossoró, rota de carga pesada
-        ponto:
-          latitude: -5.6002791
-          longitude: -36.9244041
-      - identificador: br226-currais-novos
-        via: BR-226
-        referencia: Centro de Currais Novos
-        bairro: Centro
-        municipio: Currais Novos
-        classe: troncal
-        zoom: 10
-        motivo: Travessia urbana de rodovia federal, conflito entre passagem e vida local
-        ponto:
-          latitude: -6.2591332
-          longitude: -36.5140791
-      - identificador: br405-pau-dos-ferros
-        via: BR-405
-        referencia: Zona Adensável, Pau dos Ferros
-        bairro: Zona Adensável
-        municipio: Pau dos Ferros
-        classe: troncal
-        zoom: 10
-        motivo: Ligação do Alto Oeste com o Ceará e a Paraíba
-        ponto:
-          latitude: -6.0963380
-          longitude: -38.2076740
       - identificador: rn063-pium
         via: RN-063, Rota do Sol
         referencia: Pium, Nísia Floresta
