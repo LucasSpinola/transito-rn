@@ -28,10 +28,12 @@ class Segmento(BaseModel):
     referencia: str
     bairro: str
     municipio: str
-    corredor: str
     classe: ClasseVia
     ponto: Coordenada
+    lote: str
+    zoom: int = Field(default=15, ge=0, le=22)
     sentido: str | None = None
+    frc_esperado: str | None = None
     motivo: str | None = None
 
 
@@ -47,6 +49,7 @@ class AmostraTrafego(BaseModel):
     comprimento_m: float = Field(gt=0)
     confianca: float = Field(ge=0, le=1)
     via_fechada: bool = False
+    frc: str | None = None
 
 
 class AmostraClima(BaseModel):

@@ -17,9 +17,9 @@ def segmento(identificador: str = "mlm-cei", **ajustes: object) -> Segmento:
         "referencia": "frente ao CEI Zona Sul",
         "bairro": "Nova Parnamirim",
         "municipio": "Parnamirim",
-        "corredor": "nova-parnamirim",
         "classe": ClasseVia.ARTERIAL,
         "ponto": Coordenada(latitude=-5.8786711, longitude=-35.2165393),
+        "lote": "piloto-nova-parnamirim",
     }
     dados.update(ajustes)
     return Segmento.model_validate(dados)

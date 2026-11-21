@@ -1,0 +1,250 @@
+limite_mensal: 20000
+margem: 0.15
+
+lotes:
+  - identificador: nova-parnamirim
+    descricao: Entorno do CEI Zona Sul e os acessos de Nova Parnamirim, o caso de estudo que originou o projeto
+    ativo: true
+    cadencia:
+      apenas_dias_uteis: false
+      intervalos_min:
+        pico_manha: 15
+        pico_almoco: 15
+        pico_tarde: 15
+        entrepico_manha: 120
+        entrepico_tarde: 120
+    segmentos:
+      - identificador: mlm-cei
+        via: Avenida Maria Lacerda Montenegro
+        referencia: Em frente ao CEI Zona Sul, numero 260
+        bairro: Nova Parnamirim
+        municipio: Parnamirim
+        classe: arterial
+        zoom: 15
+        frc_esperado: FRC6
+        motivo: Portao da escola, concentra embarque e desembarque nos tres picos
+        ponto:
+          latitude: -5.8786711
+          longitude: -35.2165393
+      - identificador: mlm-assai
+        via: Avenida Maria Lacerda Montenegro
+        referencia: Altura do numero 900, polo comercial
+        bairro: Nova Parnamirim
+        municipio: Parnamirim
+        classe: arterial
+        zoom: 15
+        motivo: Mede se a fila do portao da escola transborda para o trecho comercial
+        ponto:
+          latitude: -5.8841519
+          longitude: -35.2130595
+      - identificador: abel-cabral
+        via: Avenida Abel Cabral
+        referencia: Trecho central de Nova Parnamirim
+        bairro: Nova Parnamirim
+        municipio: Parnamirim
+        classe: arterial
+        zoom: 15
+        motivo: Rota alternativa natural de quem desvia da Maria Lacerda
+        ponto:
+          latitude: -5.8753441
+          longitude: -35.2147456
+      - identificador: ayrton-senna-parnamirim
+        via: Avenida Ayrton Senna
+        referencia: Portelinha, sentido Natal
+        bairro: Nova Parnamirim
+        municipio: Parnamirim
+        classe: troncal
+        zoom: 12
+        motivo: Principal ligacao da conurbacao sul com a Zona Sul de Natal
+        ponto:
+          latitude: -5.8886641
+          longitude: -35.1993949
+      - identificador: salgado-filho-parnamirim
+        via: BR-101, Avenida Senador Salgado Filho
+        referencia: Trecho de Nova Parnamirim
+        bairro: Nova Parnamirim
+        municipio: Parnamirim
+        classe: troncal
+        zoom: 10
+        motivo: Rodovia federal que absorve o trafego de passagem da regiao
+        ponto:
+          latitude: -5.8738897
+          longitude: -35.2209179
+
+  - identificador: natal-zona-sul
+    descricao: Corredores estruturantes da Zona Sul de Natal, incluindo Lagoa Nova, que lidera as estatisticas de sinistros da STTU
+    ativo: false
+    cadencia:
+      apenas_dias_uteis: true
+      intervalos_min:
+        pico_manha: 20
+        pico_almoco: 20
+        pico_tarde: 20
+        entrepico_tarde: 180
+    segmentos:
+      - identificador: roberto-freire
+        via: Avenida Engenheiro Roberto Freire
+        referencia: Conjunto Ponta Negra
+        bairro: Ponta Negra
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Eixo turistico e de acesso ao sul da cidade
+        ponto:
+          latitude: -5.8670220
+          longitude: -35.1832481
+      - identificador: praia-ponta-negra
+        via: Avenida Praia de Ponta Negra
+        referencia: Conjunto Ponta Negra
+        bairro: Ponta Negra
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Via de bairro com demanda sazonal de veraneio
+        ponto:
+          latitude: -5.8717906
+          longitude: -35.1812612
+      - identificador: salgado-filho-natal
+        via: Avenida Senador Salgado Filho
+        referencia: Altura de Morro Branco
+        bairro: Lagoa Nova
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Liga o aeroporto antigo ao centro expandido e passa pela UFRN
+        ponto:
+          latitude: -5.8140748
+          longitude: -35.2055300
+      - identificador: romualdo-galvao
+        via: Avenida Romualdo Galvao
+        referencia: Lagoa Nova
+        bairro: Lagoa Nova
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Bairro com maior numero de sinistros registrados pela STTU
+        ponto:
+          latitude: -5.8157150
+          longitude: -35.2094358
+      - identificador: prudente-morais
+        via: Avenida Prudente de Morais
+        referencia: Tirol
+        bairro: Tirol
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Corredor de ligacao entre Zona Sul e centro
+        ponto:
+          latitude: -5.7923759
+          longitude: -35.2029222
+      - identificador: hermes-fonseca
+        via: Avenida Hermes da Fonseca
+        referencia: Tirol
+        bairro: Tirol
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Eixo historico de servicos com estacionamento em via
+        ponto:
+          latitude: -5.7901614
+          longitude: -35.1967099
+      - identificador: nevaldo-rocha
+        via: Avenida Nevaldo Rocha
+        referencia: Morro Branco
+        bairro: Morro Branco
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Anel interno que distribui o trafego leste oeste
+        ponto:
+          latitude: -5.8141881
+          longitude: -35.2014478
+      - identificador: amintas-barros
+        via: Avenida Amintas Barros
+        referencia: Lagoa Nova
+        bairro: Lagoa Nova
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Alternativa paralela aos eixos troncais da Zona Sul
+        ponto:
+          latitude: -5.8156835
+          longitude: -35.2221997
+
+  - identificador: natal-zona-norte
+    descricao: Travessias do rio Potengi e corredores da Zona Norte, onde a ligacao com o resto da cidade e o gargalo estrutural
+    ativo: false
+    cadencia:
+      apenas_dias_uteis: true
+      intervalos_min:
+        pico_manha: 30
+        pico_almoco: 30
+        pico_tarde: 30
+        entrepico_tarde: 180
+    segmentos:
+      - identificador: ponte-newton-navarro
+        via: Ponte Newton Navarro
+        referencia: Acesso pela Redinha
+        bairro: Redinha
+        municipio: Natal
+        classe: troncal
+        zoom: 10
+        motivo: Uma das duas travessias do Potengi, gargalo critico da cidade
+        ponto:
+          latitude: -5.7559300
+          longitude: -35.2026795
+      - identificador: felizardo-moura
+        via: Avenida Felizardo Firmino Moura
+        referencia: Acesso a ponte de Igapo
+        bairro: Nordeste
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Aproximacao da segunda travessia do Potengi
+        ponto:
+          latitude: -5.7940902
+          longitude: -35.2419390
+      - identificador: tomaz-landim
+        via: Avenida Bacharel Tomaz Landim
+        referencia: Igapo
+        bairro: Igapo
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Continuacao da BR-406 dentro da Zona Norte
+        ponto:
+          latitude: -5.7733227
+          longitude: -35.2601026
+      - identificador: joao-medeiros-filho
+        via: Avenida Doutor Joao Medeiros Filho
+        referencia: Potengi
+        bairro: Potengi
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Trecho citado pela STTU como concentrador de sinistros com ciclistas
+        ponto:
+          latitude: -5.7678114
+          longitude: -35.2547809
+      - identificador: moema-tinoco
+        via: Avenida Moema Tinoco da Cunha Lima
+        referencia: Gramorezinho, Lagoa Azul
+        bairro: Lagoa Azul
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Borda norte em expansao urbana acelerada
+        ponto:
+          latitude: -5.7209819
+          longitude: -35.2450279
+      - identificador: capitao-mor-gouveia
+        via: Avenida Capitao Mor-Gouveia
+        referencia: Bom Pastor
+        bairro: Bom Pastor
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Ligacao oeste que alimenta as travessias do Potengi
+        ponto:
+          latitude: -5.8169189
+          longitude: -35.2445853
