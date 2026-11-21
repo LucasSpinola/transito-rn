@@ -5,10 +5,10 @@ import pytest
 import respx
 
 from tests.fabricas import segmento
-from transito_natal.adapters.tomtom.cliente import BASE_URL, FonteTomTom
-from transito_natal.adapters.tomtom.mapeamento import comprimento_m, extrair_bloco, para_amostra
-from transito_natal.domain.metricas import indice_tempo_viagem
-from transito_natal.ports.erros import (
+from transito_rn.adapters.tomtom.cliente import BASE_URL, FonteTomTom
+from transito_rn.adapters.tomtom.mapeamento import comprimento_m, extrair_bloco, para_amostra
+from transito_rn.domain.metricas import indice_tempo_viagem
+from transito_rn.ports.erros import (
     FonteIndisponivel,
     LimiteDeRequisicoesExcedido,
     RespostaInvalida,

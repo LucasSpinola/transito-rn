@@ -4,7 +4,7 @@ from collections.abc import Sequence
 from enum import StrEnum
 from statistics import mean, quantiles
 
-from transito_natal.domain.modelos import AmostraTrafego
+from transito_rn.domain.modelos import AmostraTrafego
 
 LIMIARES_NIVEL_SERVICO = ((0.85, "A"), (0.70, "B"), (0.55, "C"), (0.40, "D"), (0.25, "E"))
 LIMIAR_CONGESTIONAMENTO = 1.3

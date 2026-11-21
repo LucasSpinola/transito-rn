@@ -7,8 +7,8 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict
 
-from transito_natal.domain.modelos import Segmento
-from transito_natal.domain.orcamento import (
+from transito_rn.domain.modelos import Segmento
+from transito_rn.domain.orcamento import (
     LIMITE_MENSAL_PADRAO,
     MARGEM_DE_SEGURANCA,
     Cadencia,

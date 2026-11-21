@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from transito_natal.domain.janelas import FAIXAS, Janela, classificar, dia_util, momento_local
+from transito_rn.domain.janelas import FAIXAS, Janela, classificar, dia_util, momento_local
 
 LIMITE_MENSAL_PADRAO = 20_000
 MARGEM_DE_SEGURANCA = 0.15

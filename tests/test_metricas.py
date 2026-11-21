@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 
 from tests.fabricas import amostra
-from transito_natal.domain.metricas import (
+from transito_rn.domain.metricas import (
     NivelServico,
     atraso_s,
     atraso_s_por_km,

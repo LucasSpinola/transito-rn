@@ -4,8 +4,8 @@ from datetime import datetime
 
 import httpx
 
-from transito_natal.domain.modelos import AmostraClima, Coordenada
-from transito_natal.ports.erros import FonteIndisponivel, RespostaInvalida
+from transito_rn.domain.modelos import AmostraClima, Coordenada
+from transito_rn.ports.erros import FonteIndisponivel, RespostaInvalida
 
 BASE_URL = "https://api.open-meteo.com/v1/forecast"
 VARIAVEIS = "precipitation,temperature_2m,wind_speed_10m"

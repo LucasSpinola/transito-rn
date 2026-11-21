@@ -4,8 +4,8 @@ from collections.abc import Sequence
 from datetime import datetime
 
 from tests.fabricas import amostra
-from transito_natal.domain.modelos import AmostraClima, AmostraTrafego, Coordenada, Segmento
-from transito_natal.ports.erros import ErroDeColeta
+from transito_rn.domain.modelos import AmostraClima, AmostraTrafego, Coordenada, Segmento
+from transito_rn.ports.erros import ErroDeColeta
 
 
 class TrafegoFalso:

@@ -7,8 +7,8 @@ from pathlib import Path
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from transito_natal.adapters.armazenamento.esquemas import CLIMA, TRAFEGO
-from transito_natal.domain.modelos import AmostraClima, AmostraTrafego
+from transito_rn.adapters.armazenamento.esquemas import CLIMA, TRAFEGO
+from transito_rn.domain.modelos import AmostraClima, AmostraTrafego
 
 PASTA_TRAFEGO = "trafego"
 PASTA_CLIMA = "clima"

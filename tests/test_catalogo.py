@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from transito_natal.adapters.armazenamento.catalogo_yaml import carregar
+from transito_rn.adapters.armazenamento.catalogo_yaml import carregar
 
 CAMINHO = Path("config/segmentos.yaml")
 
@@ -15,24 +15,41 @@ def catalogo():
     return carregar(CAMINHO)
 
 
-def test_carrega_tres_lotes(catalogo):
+def test_cobre_as_quatro_zonas_de_natal_e_o_interior(catalogo):
     assert [lote.identificador for lote in catalogo.lotes] == [
-        "nova-parnamirim",
+        "parnamirim-cei",
         "natal-zona-sul",
+        "natal-zona-leste",
         "natal-zona-norte",
+        "natal-zona-oeste",
+        "regiao-metropolitana",
+        "mossoro",
+        "interior-regional",
+        "corredores-rodoviarios",
     ]
 
 
 def test_apenas_o_lote_piloto_comeca_ativo(catalogo):
-    assert [lote.identificador for lote in catalogo.lotes if lote.ativo] == ["nova-parnamirim"]
-    assert len(catalogo.listar()) == 5
-    assert len(catalogo.listar_tudo()) == 19
+    assert [lote.identificador for lote in catalogo.lotes if lote.ativo] == ["parnamirim-cei"]
+    assert len(catalogo.listar()) == 3
+    assert len(catalogo.listar_tudo()) == 42
+
+
+def test_identificadores_sao_unicos(catalogo):
+    identificadores = [segmento.identificador for segmento in catalogo.listar_tudo()]
+    assert len(identificadores) == len(set(identificadores))
+
+
+def test_cobre_os_municipios_que_importam(catalogo):
+    municipios = {segmento.municipio for segmento in catalogo.listar_tudo()}
+    assert {"Natal", "Parnamirim", "Mossoró", "Caicó", "Pau dos Ferros"} <= municipios
 
 
 def test_segmento_herda_o_lote_de_origem(catalogo):
     segmentos = {segmento.identificador: segmento for segmento in catalogo.listar_tudo()}
-    assert segmentos["mlm-cei"].lote == "nova-parnamirim"
+    assert segmentos["mlm-cei"].lote == "parnamirim-cei"
     assert segmentos["ponte-newton-navarro"].lote == "natal-zona-norte"
+    assert segmentos["mossoro-dutra"].lote == "mossoro"
 
 
 def test_orcamento_dos_ativos_cabe_no_limite(catalogo):
@@ -52,7 +69,7 @@ def test_coleta_fora_de_janela_nao_seleciona_segmento(catalogo):
 
 def test_coleta_em_pico_seleciona_o_lote_ativo(catalogo):
     selecionados = catalogo.a_coletar(datetime(2026, 11, 20, 10, 0, tzinfo=UTC))
-    assert len(selecionados) == 5
+    assert len(selecionados) == 3
 
 
 def test_lote_inexistente_levanta_erro(catalogo):

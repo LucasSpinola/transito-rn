@@ -7,10 +7,10 @@ from typing import Any
 import duckdb
 import pyarrow as pa
 
-from transito_natal.adapters.armazenamento import esquemas
-from transito_natal.domain.janelas import FAIXAS, FUSO_LOCAL
-from transito_natal.domain.metricas import LIMIAR_CONGESTIONAMENTO, LIMIARES_NIVEL_SERVICO
-from transito_natal.domain.modelos import Segmento
+from transito_rn.adapters.armazenamento import esquemas
+from transito_rn.domain.janelas import FAIXAS, FUSO_LOCAL
+from transito_rn.domain.metricas import LIMIAR_CONGESTIONAMENTO, LIMIARES_NIVEL_SERVICO
+from transito_rn.domain.modelos import Segmento
 
 Registro = dict[str, Any]
 

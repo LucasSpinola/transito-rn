@@ -4,8 +4,8 @@ from datetime import UTC, datetime
 
 import pytest
 
-from transito_natal.domain.janelas import Janela
-from transito_natal.domain.orcamento import (
+from transito_rn.domain.janelas import Janela
+from transito_rn.domain.orcamento import (
     Cadencia,
     ConsumoDoLote,
     Orcamento,

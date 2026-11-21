@@ -1,4 +1,4 @@
-# transito-natal
+# transito-rn
 
 Mede congestionamento em Natal e na conurbação sul coletando a própria série de dados, porque
 nenhuma base pública mede isso na cidade.
@@ -126,7 +126,7 @@ Definições, limitações e como reproduzir estão em [docs/metodologia.md](doc
 ## Arquitetura
 
 ```
-src/transito_natal/
+src/transito_rn/
   domain/      entidades, métricas e janelas do dia, puro e testável sem rede
   ports/       protocolos de fonte de tráfego, clima e repositório
   adapters/    tomtom, openmeteo, catálogo em yaml, parquet
@@ -164,16 +164,16 @@ identificadores novos a cada execução.
 
 ## Para quem veio estudar
 
-1. [`domain/metricas.py`](src/transito_natal/domain/metricas.py) e
-   [`domain/orcamento.py`](src/transito_natal/domain/orcamento.py): transformar uma restrição
+1. [`domain/metricas.py`](src/transito_rn/domain/metricas.py) e
+   [`domain/orcamento.py`](src/transito_rn/domain/orcamento.py): transformar uma restrição
    externa, 20 mil requisições por mês, em modelo de domínio testável.
-2. [`application/coleta.py`](src/transito_natal/application/coleta.py): separar falha tolerável de
+2. [`application/coleta.py`](src/transito_rn/application/coleta.py): separar falha tolerável de
    falha fatal. Um segmento fora do ar não derruba a rodada, cota esgotada interrompe na hora.
-3. [`analytics/analise.py`](src/transito_natal/analytics/analise.py): derivar o esquema SQL do
+3. [`analytics/analise.py`](src/transito_rn/analytics/analise.py): derivar o esquema SQL do
    mesmo esquema Arrow da gravação, em vez de manter as duas definições em paralelo.
 4. [`docs/metodologia.md`](docs/metodologia.md), em especial as limitações, que é a parte mais
    importante de qualquer trabalho com dado de terceiro.
-5. [`reporting/estilo.py`](src/transito_natal/reporting/estilo.py): paleta verificada para
+5. [`reporting/estilo.py`](src/transito_rn/reporting/estilo.py): paleta verificada para
    daltonismo, não escolhida no olho.
 
 ## Licença

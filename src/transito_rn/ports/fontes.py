@@ -4,7 +4,7 @@ from collections.abc import Sequence
 from datetime import date, datetime
 from typing import Protocol, runtime_checkable
 
-from transito_natal.domain.modelos import AmostraClima, AmostraTrafego, Coordenada, Segmento
+from transito_rn.domain.modelos import AmostraClima, AmostraTrafego, Coordenada, Segmento
 
 
 @runtime_checkable

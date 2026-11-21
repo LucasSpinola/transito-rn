@@ -3,8 +3,8 @@ from __future__ import annotations
 from datetime import UTC, date, datetime
 
 from tests.fabricas import amostra
-from transito_natal.adapters.armazenamento.parquet import RepositorioParquet
-from transito_natal.domain.modelos import AmostraClima
+from transito_rn.adapters.armazenamento.parquet import RepositorioParquet
+from transito_rn.domain.modelos import AmostraClima
 
 
 def test_gravacao_vazia_nao_cria_arquivo(tmp_path):

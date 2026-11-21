@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from transito_natal.domain.janelas import Janela, classificar, dia_util, em_pico
+from transito_rn.domain.janelas import Janela, classificar, dia_util, em_pico
 
 
 def momento(hora: int, minuto: int = 0, dia: int = 20) -> datetime:

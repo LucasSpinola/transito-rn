@@ -3,8 +3,8 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from transito_natal.domain.modelos import AmostraTrafego, Segmento
-from transito_natal.ports.erros import RespostaInvalida
+from transito_rn.domain.modelos import AmostraTrafego, Segmento
+from transito_rn.ports.erros import RespostaInvalida
 
 CAMPOS_OBRIGATORIOS = (
     "currentSpeed",

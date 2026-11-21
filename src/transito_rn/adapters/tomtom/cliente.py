@@ -6,9 +6,9 @@ from datetime import UTC, datetime
 import httpx
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
 
-from transito_natal.adapters.tomtom.mapeamento import para_amostra
-from transito_natal.domain.modelos import AmostraTrafego, Segmento
-from transito_natal.ports.erros import (
+from transito_rn.adapters.tomtom.mapeamento import para_amostra
+from transito_rn.domain.modelos import AmostraTrafego, Segmento
+from transito_rn.ports.erros import (
     FonteIndisponivel,
     LimiteDeRequisicoesExcedido,
 )

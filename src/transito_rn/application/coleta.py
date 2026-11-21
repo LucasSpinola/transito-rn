@@ -4,9 +4,9 @@ from collections.abc import Sequence
 from datetime import datetime
 from typing import NamedTuple
 
-from transito_natal.domain.modelos import AmostraClima, AmostraTrafego, Segmento
-from transito_natal.ports.erros import ErroDeColeta, LimiteDeRequisicoesExcedido
-from transito_natal.ports.fontes import (
+from transito_rn.domain.modelos import AmostraClima, AmostraTrafego, Segmento
+from transito_rn.ports.erros import ErroDeColeta, LimiteDeRequisicoesExcedido
+from transito_rn.ports.fontes import (
     FonteDeClima,
     FonteDeTrafego,
     RepositorioDeAmostras,

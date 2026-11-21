@@ -1,7 +1,7 @@
 [project]
-name = "transito-natal"
+name = "transito-rn"
 version = "0.1.0"
-description = "Medição própria de congestionamento viário em Natal e na conurbação sul, com dados abertos e série temporal própria"
+description = "Medição de congestionamento viário no Rio Grande do Norte, com série temporal própria e dados abertos de sinistros"
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 license = { text = "MIT" }
@@ -19,7 +19,7 @@ dependencies = [
 ]
 
 [project.scripts]
-transito = "transito_natal.cli:app"
+transito = "transito_rn.cli:app"
 
 [dependency-groups]
 dev = [
@@ -34,7 +34,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/transito_natal"]
+packages = ["src/transito_rn"]
 
 [tool.ruff]
 line-length = 100

@@ -6,9 +6,9 @@ from typing import Any
 
 import folium
 
-from transito_natal.domain.metricas import LIMIAR_CONGESTIONAMENTO
-from transito_natal.domain.modelos import Segmento
-from transito_natal.reporting import estilo
+from transito_rn.domain.metricas import LIMIAR_CONGESTIONAMENTO
+from transito_rn.domain.modelos import Segmento
+from transito_rn.reporting import estilo
 
 Registro = dict[str, Any]
 CENTRO = (-5.83, -35.22)

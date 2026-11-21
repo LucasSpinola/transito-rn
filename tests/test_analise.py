@@ -5,9 +5,9 @@ from datetime import UTC, datetime, timedelta
 import pytest
 
 from tests.fabricas import amostra, segmento
-from transito_natal.adapters.armazenamento.parquet import RepositorioParquet
-from transito_natal.analytics.analise import Analise
-from transito_natal.domain.modelos import AmostraClima
+from transito_rn.adapters.armazenamento.parquet import RepositorioParquet
+from transito_rn.analytics.analise import Analise
+from transito_rn.domain.modelos import AmostraClima
 
 SEGMENTOS = (
     segmento("mlm-cei", referencia="frente ao CEI Zona Sul"),

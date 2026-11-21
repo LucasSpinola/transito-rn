@@ -3,9 +3,9 @@ from __future__ import annotations
 import pytest
 
 from tests.test_analise import SEGMENTOS, semear
-from transito_natal.analytics.analise import Analise
-from transito_natal.reporting import tabelas
-from transito_natal.reporting.relatorio import MARCA_FINAL, MARCA_INICIAL, gerar, injetar
+from transito_rn.analytics.analise import Analise
+from transito_rn.reporting import tabelas
+from transito_rn.reporting.relatorio import MARCA_FINAL, MARCA_INICIAL, gerar, injetar
 
 COLUNAS = {"via": "Via", "indice_medio": "Indice medio", "chovendo": "Chovendo"}
 

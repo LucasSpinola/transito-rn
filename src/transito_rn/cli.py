@@ -7,25 +7,25 @@ from typing import Annotated
 
 import typer
 
-from transito_natal.adapters.armazenamento.catalogo_yaml import Catalogo, carregar
-from transito_natal.adapters.armazenamento.parquet import RepositorioParquet
-from transito_natal.adapters.openmeteo.cliente import FonteOpenMeteo
-from transito_natal.adapters.tomtom.cliente import FonteTomTom
-from transito_natal.analytics.analise import Analise
-from transito_natal.application.coleta import ExecutarColeta
-from transito_natal.configuracao import RAIZ_DO_PROJETO, Configuracao
-from transito_natal.domain.janelas import classificar, momento_local
-from transito_natal.domain.metricas import indice_tempo_viagem, nivel_servico
-from transito_natal.ports.erros import ErroDeColeta
-from transito_natal.reporting.relatorio import gerar, injetar
-from transito_natal.reporting.tabelas import plural
+from transito_rn.adapters.armazenamento.catalogo_yaml import Catalogo, carregar
+from transito_rn.adapters.armazenamento.parquet import RepositorioParquet
+from transito_rn.adapters.openmeteo.cliente import FonteOpenMeteo
+from transito_rn.adapters.tomtom.cliente import FonteTomTom
+from transito_rn.analytics.analise import Analise
+from transito_rn.application.coleta import ExecutarColeta
+from transito_rn.configuracao import RAIZ_DO_PROJETO, Configuracao
+from transito_rn.domain.janelas import classificar, momento_local
+from transito_rn.domain.metricas import indice_tempo_viagem, nivel_servico
+from transito_rn.ports.erros import ErroDeColeta
+from transito_rn.reporting.relatorio import gerar, injetar
+from transito_rn.reporting.tabelas import plural
 
 for fluxo in (sys.stdout, sys.stderr):
     if fluxo is not None and fluxo.encoding.lower() not in {"utf-8", "utf8"}:
         fluxo.reconfigure(encoding="utf-8", errors="replace")
 
 app = typer.Typer(
-    help="Coleta e análise de congestionamento em Natal e na conurbação sul",
+    help="Coleta e análise de congestionamento no Rio Grande do Norte",
     no_args_is_help=True,
     add_completion=False,
 )

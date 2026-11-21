@@ -2,8 +2,8 @@ limite_mensal: 20000
 margem: 0.15
 
 lotes:
-  - identificador: nova-parnamirim
-    descricao: Entorno do CEI Zona Sul e os acessos de Nova Parnamirim, o caso de estudo que originou o projeto
+  - identificador: parnamirim-cei
+    descricao: Entorno do CEI Zona Sul, o caso que abriu o projeto e o único lote com cadência fina e cobertura de fim de semana
     ativo: true
     cadencia:
       apenas_dias_uteis: false
@@ -22,7 +22,7 @@ lotes:
         classe: local
         zoom: 12
         frc_esperado: FRC5
-        motivo: Portão da escola, concentra embarque e desembarque nos três picos
+        motivo: Portão de escola sobre via de ligação, conflito clássico de polo gerador
         ponto:
           latitude: -5.8786711
           longitude: -35.2165393
@@ -45,43 +45,20 @@ lotes:
         municipio: Parnamirim
         classe: arterial
         zoom: 15
-        motivo: Rota alternativa natural de quem desvia da Maria Lacerda
+        motivo: Rota alternativa que receberia o desvio se o trecho da escola fosse restringido
         ponto:
           latitude: -5.8753441
           longitude: -35.2147456
-      - identificador: ayrton-senna-parnamirim
-        via: Avenida Ayrton Senna
-        referencia: Portelinha, sentido Natal
-        bairro: Nova Parnamirim
-        municipio: Parnamirim
-        classe: troncal
-        zoom: 12
-        motivo: Principal ligação da conurbação sul com a Zona Sul de Natal
-        ponto:
-          latitude: -5.8886641
-          longitude: -35.1993949
-      - identificador: salgado-filho-parnamirim
-        via: BR-101, Avenida Senador Salgado Filho
-        referencia: Trecho de Nova Parnamirim
-        bairro: Nova Parnamirim
-        municipio: Parnamirim
-        classe: troncal
-        zoom: 10
-        motivo: Rodovia federal que absorve o tráfego de passagem da região
-        ponto:
-          latitude: -5.8738897
-          longitude: -35.2209179
 
   - identificador: natal-zona-sul
-    descricao: Corredores estruturantes da Zona Sul de Natal, incluindo Lagoa Nova, que lidera as estatísticas de sinistros da STTU
+    descricao: Corredores da Zona Sul de Natal, que concentra emprego, serviço e o eixo turístico de Ponta Negra
     ativo: false
     cadencia:
       apenas_dias_uteis: true
       intervalos_min:
-        pico_manha: 20
-        pico_almoco: 20
-        pico_tarde: 20
-        entrepico_tarde: 180
+        pico_manha: 30
+        pico_almoco: 30
+        pico_tarde: 30
     segmentos:
       - identificador: roberto-freire
         via: Avenida Engenheiro Roberto Freire
@@ -90,18 +67,18 @@ lotes:
         municipio: Natal
         classe: troncal
         zoom: 12
-        motivo: Eixo turístico e de acesso ao sul da cidade
+        motivo: Eixo turístico e principal acesso ao extremo sul da cidade
         ponto:
           latitude: -5.8670220
           longitude: -35.1832481
       - identificador: praia-ponta-negra
         via: Avenida Praia de Ponta Negra
-        referencia: Conjunto Ponta Negra
+        referencia: Orla de Ponta Negra
         bairro: Ponta Negra
         municipio: Natal
         classe: arterial
         zoom: 15
-        motivo: Via de bairro com demanda sazonal de veraneio
+        motivo: Via de orla com demanda sazonal, serve de contraste com o padrão de pico
         ponto:
           latitude: -5.8717906
           longitude: -35.1812612
@@ -112,7 +89,7 @@ lotes:
         municipio: Natal
         classe: troncal
         zoom: 12
-        motivo: Liga o aeroporto antigo ao centro expandido e passa pela UFRN
+        motivo: Liga o sul ao centro expandido e passa pela UFRN
         ponto:
           latitude: -5.8140748
           longitude: -35.2055300
@@ -127,6 +104,28 @@ lotes:
         ponto:
           latitude: -5.8157150
           longitude: -35.2094358
+      - identificador: amintas-barros
+        via: Avenida Amintas Barros
+        referencia: Lagoa Nova
+        bairro: Lagoa Nova
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Alternativa paralela aos eixos troncais, mede transbordamento
+        ponto:
+          latitude: -5.8156835
+          longitude: -35.2221997
+
+  - identificador: natal-zona-leste
+    descricao: Centro histórico, Tirol, Petrópolis e Alecrim, a área mais antiga e de malha mais estreita da cidade
+    ativo: false
+    cadencia:
+      apenas_dias_uteis: true
+      intervalos_min:
+        pico_manha: 30
+        pico_almoco: 30
+        pico_tarde: 30
+    segmentos:
       - identificador: prudente-morais
         via: Avenida Prudente de Morais
         referencia: Tirol
@@ -149,31 +148,42 @@ lotes:
         ponto:
           latitude: -5.7901614
           longitude: -35.1967099
-      - identificador: nevaldo-rocha
-        via: Avenida Nevaldo Rocha
-        referencia: Morro Branco
-        bairro: Morro Branco
-        municipio: Natal
-        classe: troncal
-        zoom: 12
-        motivo: Anel interno que distribui o tráfego leste oeste
-        ponto:
-          latitude: -5.8141881
-          longitude: -35.2014478
-      - identificador: amintas-barros
-        via: Avenida Amintas Barros
-        referencia: Lagoa Nova
-        bairro: Lagoa Nova
+      - identificador: presidente-bandeira
+        via: Avenida Presidente Bandeira
+        referencia: Alecrim
+        bairro: Alecrim
         municipio: Natal
         classe: arterial
         zoom: 15
-        motivo: Alternativa paralela aos eixos troncais da Zona Sul
+        motivo: Maior polo de comércio popular da cidade, fluxo alto o dia inteiro
         ponto:
-          latitude: -5.8156835
-          longitude: -35.2221997
+          latitude: -5.7961084
+          longitude: -35.2181383
+      - identificador: duque-caxias
+        via: Avenida Duque de Caxias
+        referencia: Ribeira, centro histórico
+        bairro: Ribeira
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Malha colonial estreita que recebe o tráfego do porto e da Rodoviária Velha
+        ponto:
+          latitude: -5.7786136
+          longitude: -35.2048155
+      - identificador: rio-branco-natal
+        via: Avenida Rio Branco
+        referencia: Cidade Alta
+        bairro: Cidade Alta
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Eixo central histórico, ligação entre Cidade Alta e Ribeira
+        ponto:
+          latitude: -5.7821377
+          longitude: -35.2050392
 
   - identificador: natal-zona-norte
-    descricao: Travessias do rio Potengi e corredores da Zona Norte, onde a ligação com o resto da cidade é o gargalo estrutural
+    descricao: Travessias do rio Potengi e corredores da Zona Norte, que abriga cerca de 40% da população da cidade com duas únicas ligações
     ativo: false
     cadencia:
       apenas_dias_uteis: true
@@ -181,7 +191,6 @@ lotes:
         pico_manha: 30
         pico_almoco: 30
         pico_tarde: 30
-        entrepico_tarde: 180
     segmentos:
       - identificador: ponte-newton-navarro
         via: Ponte Newton Navarro
@@ -190,32 +199,10 @@ lotes:
         municipio: Natal
         classe: troncal
         zoom: 10
-        motivo: Uma das duas travessias do Potengi, gargalo crítico da cidade
+        motivo: Uma das duas travessias do Potengi, gargalo estrutural da cidade
         ponto:
           latitude: -5.7559300
           longitude: -35.2026795
-      - identificador: felizardo-moura
-        via: Avenida Felizardo Firmino Moura
-        referencia: Acesso à ponte de Igapó
-        bairro: Nordeste
-        municipio: Natal
-        classe: troncal
-        zoom: 12
-        motivo: Aproximação da segunda travessia do Potengi
-        ponto:
-          latitude: -5.7940902
-          longitude: -35.2419390
-      - identificador: tomaz-landim
-        via: Avenida Bacharel Tomaz Landim
-        referencia: Igapó
-        bairro: Igapó
-        municipio: Natal
-        classe: troncal
-        zoom: 12
-        motivo: Continuação da BR-406 dentro da Zona Norte
-        ponto:
-          latitude: -5.7733227
-          longitude: -35.2601026
       - identificador: joao-medeiros-filho
         via: Avenida Doutor João Medeiros Filho
         referencia: Potengi
@@ -227,6 +214,17 @@ lotes:
         ponto:
           latitude: -5.7678114
           longitude: -35.2547809
+      - identificador: tomaz-landim
+        via: Avenida Bacharel Tomaz Landim
+        referencia: Igapó
+        bairro: Igapó
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Continuação da BR-406 dentro da Zona Norte
+        ponto:
+          latitude: -5.7733227
+          longitude: -35.2601026
       - identificador: moema-tinoco
         via: Avenida Moema Tinoco da Cunha Lima
         referencia: Gramorezinho, Lagoa Azul
@@ -238,6 +236,28 @@ lotes:
         ponto:
           latitude: -5.7209819
           longitude: -35.2450279
+      - identificador: das-fronteiras
+        via: Avenida das Fronteiras
+        referencia: Aliança, Nossa Senhora da Apresentação
+        bairro: Nossa Senhora da Apresentação
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Bairro mais populoso do estado, com oferta viária muito abaixo da demanda
+        ponto:
+          latitude: -5.7503185
+          longitude: -35.2621393
+
+  - identificador: natal-zona-oeste
+    descricao: Eixos que alimentam as travessias do Potengi e atendem os bairros de renda mais baixa da capital
+    ativo: false
+    cadencia:
+      apenas_dias_uteis: true
+      intervalos_min:
+        pico_manha: 30
+        pico_almoco: 30
+        pico_tarde: 30
+    segmentos:
       - identificador: capitao-mor-gouveia
         via: Avenida Capitão Mor-Gouveia
         referencia: Bom Pastor
@@ -249,3 +269,301 @@ lotes:
         ponto:
           latitude: -5.8169189
           longitude: -35.2445853
+      - identificador: nevaldo-rocha
+        via: Avenida Nevaldo Rocha
+        referencia: Dix-Sept Rosado
+        bairro: Dix-Sept Rosado
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Anel interno que distribui o tráfego leste oeste
+        ponto:
+          latitude: -5.8058386
+          longitude: -35.2243607
+      - identificador: nascimento-castro
+        via: Avenida Nascimento de Castro
+        referencia: Vila 13 de Maio, Dix-Sept Rosado
+        bairro: Dix-Sept Rosado
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Ligação direta entre a Zona Oeste e Lagoa Nova
+        ponto:
+          latitude: -5.8107228
+          longitude: -35.2273537
+      - identificador: felizardo-moura
+        via: Avenida Felizardo Firmino Moura
+        referencia: Acesso à ponte de Igapó
+        bairro: Nordeste
+        municipio: Natal
+        classe: troncal
+        zoom: 12
+        motivo: Aproximação da segunda travessia do Potengi
+        ponto:
+          latitude: -5.7940902
+          longitude: -35.2419390
+      - identificador: felipe-camarao
+        via: Avenida Presidente Ranieri Mazzili
+        referencia: Vila Lavadeiras, Felipe Camarão
+        bairro: Felipe Camarão
+        municipio: Natal
+        classe: arterial
+        zoom: 15
+        motivo: Extremo oeste da capital, com acesso único e pouca redundância viária
+        ponto:
+          latitude: -5.8166413
+          longitude: -35.2493680
+
+  - identificador: regiao-metropolitana
+    descricao: Conurbação de Natal com Parnamirim, São Gonçalo do Amarante, Macaíba e Extremoz, onde o deslocamento pendular cruza divisa municipal
+    ativo: false
+    cadencia:
+      apenas_dias_uteis: true
+      intervalos_min:
+        pico_manha: 30
+        pico_almoco: 30
+        pico_tarde: 30
+    segmentos:
+      - identificador: ayrton-senna-parnamirim
+        via: Avenida Ayrton Senna
+        referencia: Portelinha, sentido Natal
+        bairro: Nova Parnamirim
+        municipio: Parnamirim
+        classe: troncal
+        zoom: 12
+        motivo: Principal ligação da conurbação sul com a Zona Sul de Natal
+        ponto:
+          latitude: -5.8886641
+          longitude: -35.1993949
+      - identificador: salgado-filho-parnamirim
+        via: BR-101, Avenida Senador Salgado Filho
+        referencia: Trecho de Nova Parnamirim
+        bairro: Nova Parnamirim
+        municipio: Parnamirim
+        classe: troncal
+        zoom: 10
+        motivo: Rodovia federal que absorve o tráfego de passagem da região
+        ponto:
+          latitude: -5.8738897
+          longitude: -35.2209179
+      - identificador: parnamirim-centro
+        via: Avenida Brigadeiro Everaldo Breves
+        referencia: Boa Esperança, centro de Parnamirim
+        bairro: Boa Esperança
+        municipio: Parnamirim
+        classe: arterial
+        zoom: 15
+        motivo: Centro do segundo município mais populoso do estado
+        ponto:
+          latitude: -5.9221694
+          longitude: -35.2629596
+      - identificador: sao-goncalo-br406
+        via: BR-101 e BR-406
+        referencia: Olho d'Água, São Gonçalo do Amarante
+        bairro: Olho d'Água
+        municipio: São Gonçalo do Amarante
+        classe: troncal
+        zoom: 10
+        motivo: Entroncamento que liga a capital ao aeroporto e ao litoral norte
+        ponto:
+          latitude: -5.7631306
+          longitude: -35.2872975
+      - identificador: macaiba-br304
+        via: BR-304
+        referencia: Ferreiro Torto, Macaíba
+        bairro: Ferreiro Torto
+        municipio: Macaíba
+        classe: troncal
+        zoom: 10
+        motivo: Corredor de entrada do interior na região metropolitana
+        ponto:
+          latitude: -5.8653757
+          longitude: -35.3407246
+      - identificador: extremoz-br101
+        via: BR-101, Rodovia Governador Mário Covas
+        referencia: Barro Vermelho, Extremoz
+        bairro: Barro Vermelho
+        municipio: Extremoz
+        classe: troncal
+        zoom: 10
+        motivo: Saída norte da região metropolitana rumo ao litoral
+        ponto:
+          latitude: -5.6414065
+          longitude: -35.2501785
+
+  - identificador: mossoro
+    descricao: Segunda maior cidade do estado, com a quarta maior taxa de veículos por habitante segundo o Detran-RN
+    ativo: false
+    cadencia:
+      apenas_dias_uteis: true
+      intervalos_min:
+        pico_manha: 60
+        pico_almoco: 60
+        pico_tarde: 60
+    segmentos:
+      - identificador: mossoro-dutra
+        via: Avenida Presidente Dutra
+        referencia: Ilha de Santa Luzia
+        bairro: Ilha de Santa Luzia
+        municipio: Mossoró
+        classe: troncal
+        zoom: 12
+        motivo: Principal eixo da cidade, alvo de obras e de ajuste semafórico em 2025
+        ponto:
+          latitude: -5.2033583
+          longitude: -37.3373831
+      - identificador: mossoro-rio-branco
+        via: Avenida Rio Branco
+        referencia: Centro
+        bairro: Centro
+        municipio: Mossoró
+        classe: arterial
+        zoom: 15
+        motivo: Eixo central, interditado em parte durante os grandes eventos da cidade
+        ponto:
+          latitude: -5.1918995
+          longitude: -37.3468961
+      - identificador: mossoro-francisco-mota
+        via: Avenida Francisco Mota
+        referencia: Rincão
+        bairro: Rincão
+        municipio: Mossoró
+        classe: troncal
+        zoom: 12
+        motivo: Acesso à UFERSA e ao vetor de expansão leste
+        ponto:
+          latitude: -5.1893629
+          longitude: -37.3073999
+      - identificador: mossoro-alberto-maranhao
+        via: Avenida Alberto Maranhão
+        referencia: Centro
+        bairro: Centro
+        municipio: Mossoró
+        classe: arterial
+        zoom: 15
+        motivo: Via central que recebe o desvio quando a Rio Branco é bloqueada
+        ponto:
+          latitude: -5.1930268
+          longitude: -37.3453293
+
+  - identificador: interior-regional
+    descricao: Centros regionais do Seridó, do Vale do Açu e do Alto Oeste, onde não existe nenhuma medição de tráfego publicada
+    ativo: false
+    cadencia:
+      apenas_dias_uteis: true
+      intervalos_min:
+        pico_manha: 60
+        pico_almoco: 60
+        pico_tarde: 60
+    segmentos:
+      - identificador: currais-novos
+        via: Avenida Coronel José Bezerra
+        referencia: Antônio Rafael
+        bairro: Antônio Rafael
+        municipio: Currais Novos
+        classe: arterial
+        zoom: 15
+        motivo: Polo do Seridó, entroncamento da BR-226 com a malha urbana
+        ponto:
+          latitude: -6.2664488
+          longitude: -36.5180713
+      - identificador: caico
+        via: Avenida Coronel Martiniano
+        referencia: Maynard
+        bairro: Maynard
+        municipio: Caicó
+        classe: arterial
+        zoom: 15
+        motivo: Maior cidade do Seridó e centro de serviços da região
+        ponto:
+          latitude: -6.4776286
+          longitude: -37.0704214
+      - identificador: acu
+        via: Centro de Assu
+        referencia: Área central
+        bairro: Centro
+        municipio: Assu
+        classe: arterial
+        zoom: 15
+        motivo: Polo do Vale do Açu, com tráfego pesado do agronegócio e do petróleo
+        ponto:
+          latitude: -5.5744011
+          longitude: -36.9068836
+      - identificador: pau-dos-ferros
+        via: Avenida Getúlio Vargas
+        referencia: Centro
+        bairro: Centro
+        municipio: Pau dos Ferros
+        classe: arterial
+        zoom: 15
+        motivo: Centro do Alto Oeste, na divisa com Ceará e Paraíba
+        ponto:
+          latitude: -6.1145148
+          longitude: -38.2007632
+
+  - identificador: corredores-rodoviarios
+    descricao: Trechos das rodovias que estruturam o estado, onde a base de sinistros da PRF permite cruzar lentidão com risco
+    ativo: false
+    cadencia:
+      apenas_dias_uteis: true
+      intervalos_min:
+        pico_manha: 120
+        pico_almoco: 120
+        pico_tarde: 120
+        entrepico_tarde: 180
+    segmentos:
+      - identificador: br101-sao-jose
+        via: BR-101, Rodovia Governador Mário Covas
+        referencia: São José de Mipibu
+        bairro: Zona rural
+        municipio: São José de Mipibu
+        classe: troncal
+        zoom: 10
+        motivo: Eixo litorâneo que liga a capital ao sul do estado
+        ponto:
+          latitude: -6.0901667
+          longitude: -35.2342612
+      - identificador: br304-acu
+        via: BR-304
+        referencia: Jardim das Carnaúbas, Assu
+        bairro: Jardim das Carnaúbas
+        municipio: Assu
+        classe: troncal
+        zoom: 10
+        motivo: Principal ligação entre Natal e Mossoró, rota de carga pesada
+        ponto:
+          latitude: -5.6002791
+          longitude: -36.9244041
+      - identificador: br226-currais-novos
+        via: BR-226
+        referencia: Centro de Currais Novos
+        bairro: Centro
+        municipio: Currais Novos
+        classe: troncal
+        zoom: 10
+        motivo: Travessia urbana de rodovia federal, conflito entre passagem e vida local
+        ponto:
+          latitude: -6.2591332
+          longitude: -36.5140791
+      - identificador: br405-pau-dos-ferros
+        via: BR-405
+        referencia: Zona Adensável, Pau dos Ferros
+        bairro: Zona Adensável
+        municipio: Pau dos Ferros
+        classe: troncal
+        zoom: 10
+        motivo: Ligação do Alto Oeste com o Ceará e a Paraíba
+        ponto:
+          latitude: -6.0963380
+          longitude: -38.2076740
+      - identificador: rn063-pium
+        via: RN-063, Rota do Sol
+        referencia: Pium, Nísia Floresta
+        bairro: Pium
+        municipio: Nísia Floresta
+        classe: troncal
+        zoom: 12
+        motivo: Acesso ao litoral sul, com pico invertido em fim de semana e feriado
+        ponto:
+          latitude: -5.9536854
+          longitude: -35.1622335

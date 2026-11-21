@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from transito_natal.domain.modelos import (
+from transito_rn.domain.modelos import (
     AmostraTrafego,
     ClasseVia,
     Coordenada,

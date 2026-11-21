@@ -31,4 +31,4 @@ jobs:
         run: uv run ruff check .
 
       - name: Rodar testes
-        run: uv run pytest --cov=transito_natal --cov-report=term-missing
+        run: uv run pytest --cov=transito_rn --cov-report=term-missing

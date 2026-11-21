@@ -5,9 +5,9 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import NamedTuple
 
-from transito_natal.analytics.analise import Analise
-from transito_natal.domain.modelos import Segmento
-from transito_natal.reporting import figuras, mapa, tabelas
+from transito_rn.analytics.analise import Analise
+from transito_rn.domain.modelos import Segmento
+from transito_rn.reporting import figuras, mapa, tabelas
 
 MARCA_INICIAL = "<!-- inicio dos achados -->"
 MARCA_FINAL = "<!-- fim dos achados -->"

@@ -6,8 +6,8 @@ from typing import Any
 
 from matplotlib import pyplot as plt
 
-from transito_natal.domain.metricas import LIMIAR_CONGESTIONAMENTO
-from transito_natal.reporting import estilo
+from transito_rn.domain.metricas import LIMIAR_CONGESTIONAMENTO
+from transito_rn.reporting import estilo
 
 Registro = dict[str, Any]
 ALTURA_POR_BARRA = 0.42

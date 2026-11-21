@@ -4,8 +4,8 @@ from datetime import UTC, datetime
 
 from tests.duplos import ClimaFalso, ErroQualquer, RepositorioFalso, TrafegoFalso
 from tests.fabricas import segmento
-from transito_natal.application.coleta import ExecutarColeta
-from transito_natal.ports.erros import FonteIndisponivel, LimiteDeRequisicoesExcedido
+from transito_rn.application.coleta import ExecutarColeta
+from transito_rn.ports.erros import FonteIndisponivel, LimiteDeRequisicoesExcedido
 
 MOMENTO = datetime(2026, 11, 20, 10, 0, tzinfo=UTC)
 SEGMENTOS = (segmento("mlm-cei"), segmento("abel-cabral"), segmento("ayrton-senna"))
