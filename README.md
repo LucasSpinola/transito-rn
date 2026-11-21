@@ -1,42 +1,66 @@
 # transito-rn
 
-Mede congestionamento em Natal e na conurbação sul coletando a própria série de dados, porque
-nenhuma base pública mede isso na cidade.
+Diagnóstico de trânsito do Rio Grande do Norte: onde o estado trava, onde o estado morre, e o que
+dá para fazer em cada caso.
 
-## Por que existe
+## Duas perguntas, duas fontes
 
-Natal não tem dado aberto de congestionamento. O portal da STTU publica só o catálogo estático de
-linhas e itinerários, e o anuário de sinistros mais recente é de 2018.
+**Onde trava** nenhuma base pública responde. O portal de mobilidade da STTU publica só o catálogo
+estático de linhas e itinerários, e fora de Natal não existe medição nenhuma. Então o projeto mede
+por conta própria: 42 segmentos viários consultados nos horários de pico, acumulando série em
+parquet.
 
-Sinistro também não é congestionamento: um bairro pode liderar o ranking de acidentes e ter fluxo
-livre.
+**Onde morre** a PRF responde desde 2007. A base de sinistros em rodovias federais traz BR,
+quilômetro, causa, tipo, clima e vítimas de cada ocorrência, e dá para rankear os trechos mais
+letais do RN hoje, sem esperar série nenhuma.
 
-Então o projeto define 19 segmentos viários, mede a velocidade real deles de 15 em 15 minutos nos
-picos e guarda tudo em parquet. Impressão vira medida, com data, hora e método.
+As duas perguntas são diferentes e as respostas também. Um trecho pode ser lento e seguro, ou
+rápido e letal. Lagoa Nova lidera os sinistros de Natal e nem por isso lidera o congestionamento.
 
-## O caso que originou tudo
+## Cobertura
 
-A Avenida Maria Lacerda Montenegro, em Nova Parnamirim, é corredor de ligação com a Ayrton Senna
-e a BR-101, e ao mesmo tempo porta do CEI Zona Sul. O embarque de alunos acontece na pista, no
-mesmo horário em que o fluxo de passagem está no pico.
+| Lote | Onde | Segmentos |
+| --- | --- | --- |
+| parnamirim-cei | Entorno do CEI Zona Sul, em Nova Parnamirim | 3 |
+| natal-zona-sul | Ponta Negra, Lagoa Nova, Capim Macio | 5 |
+| natal-zona-leste | Tirol, Petrópolis, Alecrim, Ribeira, Cidade Alta | 5 |
+| natal-zona-norte | Travessias do Potengi, Potengi, Igapó, Lagoa Azul | 5 |
+| natal-zona-oeste | Bom Pastor, Dix-Sept Rosado, Nordeste, Felipe Camarão | 5 |
+| regiao-metropolitana | Parnamirim, São Gonçalo, Macaíba, Extremoz | 6 |
+| mossoro | Presidente Dutra, Rio Branco, Francisco Mota | 4 |
+| interior-regional | Currais Novos, Caicó, Assu, Pau dos Ferros | 4 |
+| corredores-rodoviarios | BR-101, BR-304, BR-226, BR-405, RN-063 | 5 |
 
-Primeira medição, 10h34 de uma sexta, fora de pico:
+Os lotes entram em operação aos poucos, não todos juntos, porque o teto da API é mensal e o
+consumo precisa ser observado antes de crescer.
 
-| Trecho | Velocidade | Fluxo livre | Índice | Nível |
-| --- | --- | --- | --- | --- |
-| 444 m em frente ao portão | 13 km/h | 20 km/h | 1,54 | C |
-| Eixo completo, 3,4 km | 30 km/h | 36 km/h | 1,20 | B |
-| Abel Cabral, rota paralela | 30 km/h | 30 km/h | 1,00 | A |
+## O caso que abriu o projeto
 
-O gargalo é local, não sistêmico. Isso muda tudo, porque problema local aceita solução barata.
-As medidas pesquisadas estão em
+A Avenida Maria Lacerda Montenegro, em Nova Parnamirim, é corredor de ligação com a Ayrton Senna e
+a BR-101, e ao mesmo tempo porta do CEI Zona Sul. O embarque de alunos ocupa a pista no mesmo
+horário em que o fluxo de passagem está no pico.
+
+Três medições num único dia, fora de qualquer obra ou acidente:
+
+| Horário | Trecho do portão | Resto do lote |
+| --- | --- | --- |
+| 10h34 | índice 1,54, nível C | 1,20 e 1,00 |
+| 10h41 | índice 1,26 | 1,00 |
+| 11h07 | índice 1,32, classificado como congestionado | 1,00 |
+
+O gargalo é o portão, não a avenida, e dura cerca de doze minutos por vez. Problema local aceita
+solução local, que é o oposto de obra viária. As medidas pesquisadas, ordenadas por força de
+evidência, estão em
 [docs/propostas/entorno-cei-zona-sul.md](docs/propostas/entorno-cei-zona-sul.md).
+
+Esse caso é o método em escala pequena, não o objetivo do projeto. O mesmo tratamento se aplica a
+qualquer um dos 42 segmentos assim que a série deles encher.
 
 ## Achados da série
 
 <!-- inicio dos achados -->
 
-Atualizado em 21/11/2026 14:03 utc pelo comando `transito relatorio`.
+Atualizado em 21/11/2026 14:26 utc pelo comando `transito relatorio`.
 
 Série de 10 amostras em 5 segmentos, cobrindo 1 dia, de 2026-11-21 a 2026-11-21.
 
@@ -93,20 +117,26 @@ Série de 10 amostras em 5 segmentos, cobrindo 1 dia, de 2026-11-21 a 2026-11-21
 
 ## Como funciona
 
-A fonte é o endpoint Flow Segment Data da TomTom, que devolve velocidade atual, velocidade de
-fluxo livre, tempo de percurso e confiança para o ponto consultado. São 20 mil requisições por
+A medição de lentidão usa o endpoint Flow Segment Data da TomTom, que devolve velocidade atual,
+velocidade de fluxo livre e tempo de percurso para o ponto consultado. São 20 mil requisições por
 mês no plano gratuito, e esse teto organiza o projeto inteiro.
 
-**Lotes, não tudo de uma vez.** Nova Parnamirim primeiro, Zona Sul depois, Zona Norte por último.
-O comando `transito orcamento` projeta o consumo antes de gastar.
+**Lotes, não tudo de uma vez.** O comando `transito orcamento` projeta o consumo antes de gastar e
+recusa plano acima do teto. Com os nove lotes ligados, a projeção é de 15.446 requisições por mês,
+77% do limite.
 
-**Só nas janelas que importam.** Não faz sentido medir às três da manhã. O piloto roda a cada 15
-minutos nos picos, e inclui o fim de semana de propósito: sem esse contraste, nada prova que o
-gargalo é escolar.
+**Só nas janelas que importam.** O piloto roda a cada 15 minutos nos picos e inclui o fim de
+semana de propósito, porque sem esse contraste nada prova que o gargalo é escolar. As zonas de
+Natal rodam a cada 30 minutos em dias úteis, Mossoró e o interior a cada 60, as rodovias a cada
+120.
 
 **Zoom calibrado por segmento.** O zoom da API não é escala de mapa, é a classe de via escolhida.
-O mesmo ponto devolve a BR-101 em zoom 10 e o trecho do portão em zoom 12. Sem calibrar, você
-mede outra rua.
+O mesmo ponto devolve a BR-101 em zoom 10 e o trecho do portão da escola em zoom 12. Sem calibrar,
+você mede outra rua.
+
+Os sinistros da PRF entram por fora, porque os arquivos ficam em links do Google Drive sem padrão
+de URL. Você baixa os CSV anuais, joga em `data/externo/prf/` e roda `transito importar-prf`, que
+filtra o RN, trata a vírgula decimal do quilômetro e grava em parquet.
 
 Chuva vem da Open-Meteo, grátis e sem chave. O agendamento roda no GitHub Actions e publica os
 parquets na branch `dados`, então não há servidor nem custo.
@@ -120,6 +150,7 @@ parquets na branch `dados`, então não há servidor nem custo.
 | Índice de planejamento | percentil 95, quanto reservar para chegar no horário em 19 de cada 20 dias |
 | Índice de buffer | imprevisibilidade, duas vias com a mesma média podem ser bem diferentes |
 | Nível de serviço | classificação de A a F pela razão entre velocidade atual e livre |
+| Letalidade por ocorrência | mortes a cada cem sinistros, separa trecho perigoso de trecho movimentado |
 
 Definições, limitações e como reproduzir estão em [docs/metodologia.md](docs/metodologia.md).
 
@@ -129,9 +160,9 @@ Definições, limitações e como reproduzir estão em [docs/metodologia.md](doc
 src/transito_rn/
   domain/      entidades, métricas e janelas do dia, puro e testável sem rede
   ports/       protocolos de fonte de tráfego, clima e repositório
-  adapters/    tomtom, openmeteo, catálogo em yaml, parquet
+  adapters/    tomtom, openmeteo, prf, catálogo em yaml, parquet
   application/ caso de uso de coleta, tolera falha e corta por limite de cota
-  analytics/   consultas duckdb sobre os parquets
+  analytics/   consultas duckdb sobre lentidão e sobre sinistros
   reporting/   gráficos, mapa, tabelas e injeção no leia-me
   cli.py       linha de comando
 config/segmentos.yaml   lotes, segmentos, zoom e cadência
@@ -155,6 +186,8 @@ uv run transito segmentos       # lotes e segmentos cadastrados
 uv run transito calibrar        # confere a que via cada ponto está colando
 uv run transito coletar         # uma coleta, respeitando a cadência
 uv run transito analisar        # ranking de gargalos e perfil por janela
+uv run transito importar-prf    # ingere os csv de sinistros da PRF
+uv run transito sinistros       # trechos e municípios mais letais do estado
 uv run transito relatorio       # gráficos, mapa e atualiza este leia-me
 uv run transito status          # cobertura da série e vida restante da cota
 ```
@@ -165,17 +198,17 @@ identificadores novos a cada execução.
 ## Para quem veio estudar
 
 1. [`domain/metricas.py`](src/transito_rn/domain/metricas.py) e
-   [`domain/orcamento.py`](src/transito_rn/domain/orcamento.py): transformar uma restrição
-   externa, 20 mil requisições por mês, em modelo de domínio testável.
+   [`domain/orcamento.py`](src/transito_rn/domain/orcamento.py): transformar uma restrição externa,
+   20 mil requisições por mês, em modelo de domínio testável.
 2. [`application/coleta.py`](src/transito_rn/application/coleta.py): separar falha tolerável de
    falha fatal. Um segmento fora do ar não derruba a rodada, cota esgotada interrompe na hora.
-3. [`analytics/analise.py`](src/transito_rn/analytics/analise.py): derivar o esquema SQL do
-   mesmo esquema Arrow da gravação, em vez de manter as duas definições em paralelo.
-4. [`docs/metodologia.md`](docs/metodologia.md), em especial as limitações, que é a parte mais
+3. [`adapters/prf/importacao.py`](src/transito_rn/adapters/prf/importacao.py): ingerir base pública
+   que muda de esquema entre anos, exigindo só o núcleo e tolerando o resto.
+4. [`analytics/analise.py`](src/transito_rn/analytics/analise.py): derivar o esquema SQL do mesmo
+   esquema Arrow da gravação, em vez de manter as duas definições em paralelo.
+5. [`docs/metodologia.md`](docs/metodologia.md), em especial as limitações, que é a parte mais
    importante de qualquer trabalho com dado de terceiro.
-5. [`reporting/estilo.py`](src/transito_rn/reporting/estilo.py): paleta verificada para
-   daltonismo, não escolhida no olho.
 
 ## Licença
 
-MIT. Os dados seguem os termos de uso da TomTom e da Open-Meteo.
+MIT. Os dados seguem os termos de uso da TomTom, da Open-Meteo e da PRF.

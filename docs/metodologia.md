@@ -2,7 +2,8 @@
 
 ## Por que o projeto gera o próprio dado
 
-Natal não publica série aberta de congestionamento. O portal de dados abertos da mobilidade
+Nenhum município do Rio Grande do Norte publica série aberta de congestionamento, e fora de Natal
+não existe sequer um portal de mobilidade. Na capital, o portal de dados abertos
 ([dadosabertos.natal.br](http://dadosabertos.natal.br/)) entrega o catálogo estático de linhas,
 terminais e itinerários, e a API dinâmica exige cadastro prévio de desenvolvedor. O anuário
 estatístico de sinistros mais recente publicado pela STTU na
@@ -11,8 +12,9 @@ e 2025 circulam apenas pela imprensa citando a secretaria. Os endereços `dados.
 `dados.sttu.natal.br` não respondiam quando este projeto foi montado.
 
 Sinistro também não é congestionamento. Um bairro pode liderar o ranking de acidentes e ter
-fluxo livre, enquanto outro trava todo dia sem registrar ocorrência. Como nenhuma base pública
-mede tempo de viagem em Natal, o repositório constrói a sua.
+fluxo livre, enquanto outro trava todo dia sem registrar ocorrência. São duas perguntas
+diferentes, e o projeto responde cada uma com a fonte adequada: lentidão com medição própria,
+risco com a base de sinistros da PRF.
 
 ## Fonte primária
 
@@ -58,21 +60,29 @@ conferir, com uma requisição por segmento, se a associação continua correta 
 O catálogo em [`config/segmentos.yaml`](../config/segmentos.yaml) organiza os segmentos em lotes,
 e cada lote tem a sua cadência por janela do dia. O lote piloto de Nova Parnamirim roda a cada 15
 minutos nos três picos, inclusive no fim de semana, porque o efeito escolar só se comprova por
-contraste com o sábado e o domingo. Os lotes de Natal rodam a cada 20 e 30 minutos, restritos a
-dias úteis.
+contraste com o sábado e o domingo. As quatro zonas de Natal e a região metropolitana rodam a cada
+30 minutos em dias úteis, Mossoró e os centros do interior a cada 60, e os trechos rodoviários a
+cada 120. Largura e resolução disputam a mesma cota, e a escolha foi cobrir o estado com menos
+detalhe fino, exceto no lote piloto.
 
 O módulo de orçamento projeta o consumo antes de qualquer chamada, aplicando margem de segurança
 de 15% sobre o teto mensal. A projeção atual:
 
 | Lote | Segmentos | Coletas por dia | Requisições por mês |
 | --- | --- | --- | --- |
-| nova-parnamirim | 5 | 36 | 5580 |
-| natal-zona-sul | 8 | 26 | 4784 |
-| natal-zona-norte | 6 | 18 | 2484 |
-| total | 19 | | 12848, ou 64,2% do limite |
+| parnamirim-cei | 3 | 36 | 3348 |
+| natal-zona-sul | 5 | 17 | 1955 |
+| natal-zona-leste | 5 | 17 | 1955 |
+| natal-zona-norte | 5 | 17 | 1955 |
+| natal-zona-oeste | 5 | 17 | 1955 |
+| regiao-metropolitana | 6 | 17 | 2346 |
+| mossoro | 4 | 8 | 736 |
+| interior-regional | 4 | 8 | 736 |
+| corredores-rodoviarios | 5 | 4 | 460 |
+| total | 42 | | 15446, ou 77,2% do limite |
 
 Os lotes entram em operação de forma escalonada, não todos de uma vez. Enquanto só o piloto
-estiver ativo, o consumo fica em 27,9% do limite, o que deixa folga para recalibragem e para
+estiver ativo, o consumo fica em 16,7% do limite, o que deixa folga para recalibragem e para
 rodadas manuais de teste.
 
 ## Métricas
@@ -97,6 +107,43 @@ obriga a sair de casa mais cedo por precaução.
 
 **Nível de serviço** classifica a razão entre velocidade atual e velocidade livre em faixas de A
 a F, com A acima de 0,85 e F abaixo de 0,25.
+
+## Sinistros em rodovias federais
+
+A segunda fonte é a base de acidentes da Polícia Rodoviária Federal, publicada em
+[dados abertos da PRF](https://www.gov.br/prf/pt-br/acesso-a-informacao/dados-abertos/dados-abertos-da-prf),
+com arquivos anuais de 2007 a 2026 no recorte agrupado por ocorrência. Cada linha traz data, UF,
+BR, quilômetro, município, causa, tipo, classificação, fase do dia, condição meteorológica e
+contagem de vítimas, além de latitude e longitude.
+
+A ingestão é manual de propósito. Os arquivos ficam em links do Google Drive com identificador
+opaco, sem padrão de URL, e o domínio `dados.prf.gov.br` não resolve, então automatizar o download
+seria frágil e quebraria na primeira republicação. O fluxo é baixar os CSV, salvar em
+`data/externo/prf/` e rodar `transito importar-prf`.
+
+O importador exige apenas o núcleo do esquema, que são data, UF, BR, quilômetro, município, causa,
+tipo, classificação e mortos, e preenche com nulo qualquer coluna ausente. Isso importa porque o
+esquema mudou entre o sistema BR-Brasil, usado até 2016, e o BAT, usado de 2017 em diante.
+Quilômetro, latitude e longitude vêm com vírgula decimal e são convertidos na leitura.
+
+A análise rankeia trechos em faixas de dez quilômetros por BR, municípios, causas e fase do dia, e
+cruza cada sinistro com os segmentos monitorados por distância geodésica, o que permite perguntar
+quantas mortes aconteceram num raio de cinco quilômetros de um ponto que também é medido por
+velocidade.
+
+Duas ressalvas pesam. A base cobre só rodovias federais, então sinistro em via municipal não
+aparece, e Natal fica subrepresentada fora da BR-101 e da BR-226. E contagem bruta de ocorrência
+não é risco: um trecho movimentado acumula acidente por exposição, não por perigo. Por isso o
+projeto também calcula letalidade por ocorrência, que é a razão entre mortes e sinistros.
+
+## Volume de veículos, uma lacuna assumida
+
+O ideal seria cruzar lentidão e sinistro com volume real de veículos. O Plano Nacional de Contagem
+de Tráfego do DNIT existe para isso, com equipamentos de contagem contínua na malha federal, mas
+a [página oficial](https://www.gov.br/dnit/pt-br/assuntos/planejamento-e-pesquisa/planejamento/contagem-de-trafego)
+foi atualizada pela última vez em 2020, o portal de downloads não oferece arquivo algum e o único
+conjunto baixável é uma planilha de 1994 a 2001. O projeto registra isso como limitação, não como
+fonte.
 
 ## Clima
 
@@ -134,6 +181,8 @@ uv run transito orcamento
 uv run transito calibrar --lote nova-parnamirim
 uv run transito coletar --forcar
 uv run transito analisar
+uv run transito importar-prf
+uv run transito sinistros
 uv run transito relatorio
 ```
 
