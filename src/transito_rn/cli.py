@@ -10,10 +10,12 @@ import typer
 from transito_rn.adapters.armazenamento.catalogo_yaml import Catalogo, carregar
 from transito_rn.adapters.armazenamento.parquet import RepositorioParquet
 from transito_rn.adapters.openmeteo.cliente import FonteOpenMeteo
+from transito_rn.adapters.prf.importacao import ImportadorPRF
 from transito_rn.adapters.tomtom.cliente import FonteTomTom
 from transito_rn.analytics.analise import Analise
+from transito_rn.analytics.sinistros import AnaliseDeSinistros
 from transito_rn.application.coleta import ExecutarColeta
-from transito_rn.configuracao import RAIZ_DO_PROJETO, Configuracao
+from transito_rn.configuracao import PASTA_PADRAO_EXTERNA, RAIZ_DO_PROJETO, Configuracao
 from transito_rn.domain.janelas import classificar, momento_local
 from transito_rn.domain.metricas import indice_tempo_viagem, nivel_servico
 from transito_rn.ports.erros import ErroDeColeta
@@ -214,6 +216,80 @@ def relatorio(catalogo: OpcaoCatalogo = None) -> None:
         typer.echo(f"  mapa: {gerado.mapa}")
     if injetar(RAIZ_DO_PROJETO / "README.md", gerado.achados):
         typer.echo("  readme atualizado entre as marcas de achados")
+
+
+@app.command()
+def importar_prf(
+    origem: Annotated[Path | None, typer.Option("--origem", help="Pasta com os csv")] = None,
+    uf: Annotated[str, typer.Option("--uf", help="Unidade da federacao")] = "RN",
+) -> None:
+    configuracao = Configuracao.do_ambiente()
+    pasta = origem or PASTA_PADRAO_EXTERNA / "prf"
+    try:
+        with ImportadorPRF(uf=uf) as importador:
+            resultado = importador.importar(pasta, configuracao.dados)
+    except ErroDeColeta as erro:
+        typer.secho(str(erro), fg=typer.colors.RED)
+        typer.echo(
+            "baixe os csv anuais em gov.br/prf, acesso a informacao, dados abertos, "
+            f"e salve em {pasta}"
+        )
+        raise typer.Exit(code=1) from erro
+
+    typer.secho(
+        f"{resultado.linhas_da_uf} ocorrencias de {uf} extraidas de "
+        f"{resultado.linhas_lidas} linhas em {resultado.arquivos} arquivos",
+        fg=typer.colors.GREEN,
+        bold=True,
+    )
+    typer.echo(f"  periodo de {resultado.primeiro_ano} a {resultado.ultimo_ano}")
+    typer.echo(f"  gravado em {resultado.destino}")
+
+
+@app.command()
+def sinistros(
+    catalogo: OpcaoCatalogo = None,
+    limite: Annotated[int, typer.Option("--limite", help="Linhas por ranking")] = 10,
+    desde: Annotated[int | None, typer.Option("--desde", help="Ano inicial")] = None,
+) -> None:
+    configuracao, catalogo_carregado = _carregar(catalogo)
+    with AnaliseDeSinistros(configuracao.dados, catalogo_carregado.listar_tudo()) as analise:
+        if analise.vazio:
+            typer.secho(
+                "nenhum sinistro importado ainda, rode transito importar-prf",
+                fg=typer.colors.YELLOW,
+            )
+            raise typer.Exit(code=0)
+
+        cobertura = analise.cobertura()
+        typer.secho(
+            f"{cobertura['ocorrencias']} ocorrencias, {cobertura['mortos']} mortes e "
+            f"{cobertura['feridos_graves']} feridos graves, "
+            f"de {cobertura['primeiro_ano']} a {cobertura['ultimo_ano']}",
+            bold=True,
+        )
+
+        typer.secho("\ntrechos de rodovia mais letais", bold=True)
+        for posicao, linha in enumerate(analise.trechos_mais_letais(limite, desde), start=1):
+            typer.echo(
+                f"  {posicao:>2}. BR-{linha['br']:<4} km {linha['km_inicial']:>4} a "
+                f"{linha['km_final']:<4} {linha['municipio_de_referencia'][:18]:<18} "
+                f"{linha['mortos']:>3} mortes em {linha['ocorrencias']:>4} ocorrencias"
+            )
+
+        typer.secho("\nmunicipios com mais mortes", bold=True)
+        for posicao, linha in enumerate(analise.por_municipio(limite, desde), start=1):
+            typer.echo(
+                f"  {posicao:>2}. {linha['municipio'][:24]:<24} "
+                f"{linha['mortos']:>3} mortes em {linha['ocorrencias']:>4} ocorrencias"
+            )
+
+        typer.secho("\nsinistros perto dos segmentos monitorados", bold=True)
+        for linha in analise.ao_redor_dos_segmentos(desde=desde)[:limite]:
+            typer.echo(
+                f"  {linha['segmento']:<26} {linha['mortos']:>3} mortes em "
+                f"{linha['ocorrencias']:>4} ocorrencias num raio de 5 km"
+            )
 
 
 @app.command()

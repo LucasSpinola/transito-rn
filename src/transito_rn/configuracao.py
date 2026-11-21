@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict
 RAIZ_DO_PROJETO = Path(__file__).resolve().parents[2]
 CAMINHO_PADRAO_DO_CATALOGO = RAIZ_DO_PROJETO / "config" / "segmentos.yaml"
 PASTA_PADRAO_DE_DADOS = RAIZ_DO_PROJETO / "data" / "raw"
+PASTA_PADRAO_EXTERNA = RAIZ_DO_PROJETO / "data" / "externo"
 ARQUIVO_DE_AMBIENTE = RAIZ_DO_PROJETO / ".env"
 
 
